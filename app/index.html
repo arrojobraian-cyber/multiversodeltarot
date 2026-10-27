@@ -114,6 +114,13 @@ button:focus-visible{outline:2px solid var(--oro2);outline-offset:3px}
 .sintesis{position:relative;text-align:center;margin-top:6px;border:1px solid var(--oro);border-radius:16px;padding:24px 22px;display:flex;flex-direction:column;gap:12px;background:radial-gradient(120% 100% at 50% 0%,rgba(210,173,91,.14),rgba(11,9,19,.4));animation:aparecer 1s ease both}
 .sintesis h3{margin:0;text-align:center;font:700 22px var(--display);color:var(--oro2)}
 .sintesis p:first-of-type::first-letter{font:700 34px/1 var(--display);color:var(--oro)}
+.impacto{display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;padding:26px 20px;margin-bottom:6px;border-radius:18px;border:1.5px solid var(--oro2);background:radial-gradient(120% 120% at 50% 0%,rgba(242,220,152,.2),rgba(154,47,69,.2) 55%,rgba(11,9,19,.6));box-shadow:0 0 40px rgba(242,220,152,.18);animation:aparecer 1s ease both}
+.impacto .eti{font:700 12px var(--display);letter-spacing:.18em;color:var(--oro);text-transform:uppercase}
+.impacto .preg-cita{font-style:italic;color:var(--humo);font-size:15px}
+.impacto .abre{font:700 clamp(20px,5vw,26px)/1.25 var(--display);color:var(--pergamino)}
+.impacto .frase{font:italic 600 clamp(22px,5.6vw,30px)/1.3 var(--texto);color:var(--oro2);text-shadow:0 0 24px rgba(242,220,152,.35)}
+.impacto small{color:var(--humo);font-size:13px}
+.semana{text-align:left;border-top:1px solid var(--linea);padding-top:12px}.semana b{color:var(--oro2)}.semana ul{margin:8px 0 0;padding-left:20px;display:grid;gap:6px}
 .si-no{font:700 clamp(44px,10vw,70px)/1 var(--display);color:var(--oro2);text-align:center;text-shadow:0 0 30px rgba(242,220,152,.5)}
 /* planes */
 .planes{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px}
@@ -427,18 +434,19 @@ var CFG={"supabaseUrl": "https://ysuwodjgcetzpdazqkmt.supabase.co", "supabaseKey
 try{!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','1790274578916243');fbq('track','PageView');}catch(e){}
 function px(ev,d){try{fbq('track',ev,d||{})}catch(e){}}
 var sb=window.supabase.createClient(CFG.supabaseUrl,CFG.supabaseKey);
-var sesion=null,cred=0,gratis=true,leadOk=false;
+var sesion=null,cred=0,gratis=true,leadOk=false,equipo=false;
 function guardado(k,v){try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v)}catch(e){return null}}
 gratis=guardado('tarot.gratisUsada')!=='1';leadOk=!!guardado('tarot.lead');
 function pintarCred(){
-  if(sesion){$('nCred').textContent=cred;$('txtCred').textContent=cred===1?'lectura':'lecturas';$('btnCuenta').textContent='Salir'}
+  if(sesion){$('nCred').textContent=equipo?'∞':cred;$('txtCred').textContent=equipo?'lecturas (equipo)':cred===1?'lectura':'lecturas';$('btnCuenta').textContent='Salir'}
   else{$('nCred').textContent=gratis?1:0;$('txtCred').textContent=gratis?'lectura gratis':'lecturas';$('btnCuenta').textContent='Entrar'}
 }
 function leerSaldo(){
   if(!sesion){pintarCred();return Promise.resolve()}
-  return sb.from('cuentas').select('creditos,creditos_plan,plan_hasta').maybeSingle().then(function(r){
+  return sb.from('cuentas').select('creditos,creditos_plan,plan_hasta,ilimitado').maybeSingle().then(function(r){
     var c=r.data,vigente=!!(c&&c.plan_hasta&&new Date(c.plan_hasta)>new Date());
     cred=c?c.creditos+(vigente?c.creditos_plan:0):0;
+    if(c&&c.ilimitado){cred=999;equipo=true}   // cuentas del equipo: lecturas sin limite para probar
     // la lectura a 3,99 es solo para quien tiene un plan vigente; el resto ve la suelta a 9,99
     $('bloqueExtra').hidden=!vigente;pintarCred()})
 }
@@ -593,23 +601,44 @@ function agregarBloque(e,k){
 function sintesis(){
   var nombre=$('nombre').value.trim()||'';
   var preg=$('pregunta').value.trim();
+  var tema=estado.tema,T=TEMAS[tema];
   var cs=estado.elegidas.map(function(e){return CARTAS[e.i]});
   var inv=estado.elegidas.filter(function(e){return e.inv}).length;
   var s=document.createElement('div');s.className='sintesis';
-  var html;
+  var imp=document.createElement('div');imp.className='impacto';
+  var html,top;
+  var sobre=preg?'<p class="preg-cita">«'+escapar(preg)+'»</p>':'';
   if(estado.n===1){
     var e=estado.elegidas[0],c=CARTAS[e.i],r=c.sn;
     if(e.inv)r=r==='si'?'depende':'no';
     var txt={si:'Sí',no:'No por ahora',depende:'Depende'}[r];
-    html='<h3>'+(nombre?nombre+', esta es tu':'Tu')+' respuesta</h3><div class="si-no">'+txt+'</div>'+
-      '<p>'+(preg?'A tu pregunta «'+escapar(preg)+'», '+c.n+' responde: ':'')+c[estado.tema]+'</p><p class="humo">'+ANIMO[estado.animo]+'</p>';
+    var d=e.inv?c.rev:c.up;
+    // arriba: la respuesta corta que pega; abajo: el desarrollo
+    top='<span class="eti">'+(nombre?nombre+', tu respuesta':'Tu respuesta')+'</span>'+sobre+'<div class="si-no">'+txt+'</div>'+
+      '<p class="frase">'+c[tema]+'</p><small>Abajo tienes tu lectura completa ↓</small>';
+    html='<h3>Tu lectura completa</h3>'+
+      '<p>Salió <b>'+c.n+(e.inv?', invertida':'')+'</b>, la carta de '+d[0]+'. '+d[1]+'</p>'+
+      '<p><b>Qué significa para '+T+':</b> '+c[tema]+(r==='si'?' La energía está a tu favor: lo que preguntas tiene camino.':r==='no'?' Por ahora el camino está cerrado: no es un nunca, es un todavía no.':' La respuesta depende de lo que hagas tú en los próximos días.')+'</p>'+
+      '<div class="semana"><b>Para esta semana</b><ul><li>'+(r==='si'?'Da un paso concreto hacia lo que preguntaste: no esperes la señal perfecta.':r==='no'?'No fuerces la situación: dale unos días y vuelve a mirarla.':'Antes de decidir, escribe en un papel qué ganas y qué pierdes con cada opción.')+'</li>'+
+      '<li>'+d[1].split('. ')[0].replace(/\.$/,'')+': tenlo presente cada vez que vuelva la duda.</li>'+
+      '<li>Vuelve a consultar en unos días para ver cómo se movió la energía.</li></ul></div>'+
+      '<p class="humo">'+ANIMO[estado.animo]+'</p>';
   }else{
+    var abre=inv===0?'Las cartas son claras contigo.':inv===3?'Antes de avanzar, las cartas te piden frenar.':'Hay algo que todavía no estás viendo.';
     var tono=inv===0?'Las tres cartas salieron al derecho: la energía te acompaña.':inv===3?'Las tres salieron invertidas: hay algo que revisar antes de avanzar.':'Hay '+inv+' carta'+(inv>1?'s':'')+' invertida'+(inv>1?'s':'')+': el camino está, con algún nudo para desatar.';
     var cl=function(k){return estado.elegidas[k].inv?cs[k].rev[0]:cs[k].up[0]};
-    html='<h3>'+(nombre?nombre+', lo':'Lo')+' que dicen tus cartas</h3>'+
-      '<p>'+(preg?'Sobre «'+escapar(preg)+'»: vienes':'Vienes')+' de <b>'+cs[0].n+'</b>, que habla de '+cl(0)+'. Hoy estás en <b>'+cs[1].n+'</b>: '+cl(1)+'. Y lo que viene trae <b>'+cs[2].n+'</b>: '+cl(2)+'.</p>'+
-      '<p>'+tono+'</p><p><b>El consejo para '+TEMAS[estado.tema]+':</b> '+cs[2][estado.tema]+'</p><p class="humo">'+ANIMO[estado.animo]+'</p>';
+    var dd=function(k){return (estado.elegidas[k].inv?cs[k].rev:cs[k].up)[1]};
+    top='<span class="eti">'+(nombre?nombre+', tu respuesta':'Tu respuesta')+'</span>'+sobre+'<p class="abre">'+abre+'</p>'+
+      '<p class="frase">«'+cs[2][tema]+'»</p><small>Abajo tienes tu lectura completa ↓</small>';
+    html='<h3>Tu lectura completa</h3>'+
+      '<p>Vienes de <b>'+cs[0].n+'</b>, que habla de '+cl(0)+'. Hoy estás en <b>'+cs[1].n+'</b>: '+cl(1)+'. Y lo que viene trae <b>'+cs[2].n+'</b>: '+cl(2)+'.</p>'+
+      '<p><b>Cómo se conectan.</b> Lo que empezó como '+cl(0).split(',')[0]+' hoy se vive como '+cl(1).split(',')[0]+'. '+dd(1)+' Y hacia adelante, '+cs[2].n+' marca el rumbo: '+dd(2).charAt(0).toLowerCase()+dd(2).slice(1)+'</p>'+
+      '<p><b>Qué significa para '+T+'.</b> '+cs[1][tema]+' '+cs[2][tema]+'</p>'+
+      '<p>'+tono+'</p>'+
+      '<div class="semana"><b>Para esta semana</b><ul><li><b>Revisa:</b> '+cs[0][tema]+'</li><li><b>Atiende:</b> '+cs[1][tema]+'</li><li><b>Prepárate:</b> '+cs[2][tema]+'</li></ul></div>'+
+      '<p class="humo">'+ANIMO[estado.animo]+'</p>';
   }
+  imp.innerHTML=top;$('lectura').insertBefore(imp,$('lectura').firstChild);
   s.innerHTML=html;$('lectura').appendChild(s);
   $('otra').textContent=sesion&&cred>0?'Nueva lectura (te quedan '+cred+')':'Nueva lectura';
   $('acciones').hidden=false;

@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Panel · Multiverso del Tarot</title>
+<style>
+/* Panel privado del negocio: solo lo ven las cuentas del equipo (la base se niega a cualquier otro email). */
+:root{--noche:#0b0811;--velo:#1a1226;--oro:#d2ad5b;--oro2:#f2dc98;--crema:#f3e7c9;--humo:#b9aecb;--linea:rgba(210,173,91,.3);--rojo:#e3a0ad;color-scheme:dark}
+*{box-sizing:border-box}body{margin:0;background:var(--noche);color:var(--crema);font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
+.wrap{max-width:1000px;margin:0 auto;padding:24px 16px 60px}
+h1{font:700 24px Georgia,serif;color:var(--oro2);margin:0 0 4px}.sub{color:var(--humo);margin:0 0 22px;font-size:14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+.kpi{border:1px solid var(--linea);border-radius:14px;padding:16px;background:var(--velo)}
+.kpi b{display:block;font:700 30px/1.1 Georgia,serif;color:var(--oro2)}.kpi span{color:var(--humo);font-size:13px}
+h2{font:700 17px Georgia,serif;color:var(--oro);margin:28px 0 10px}
+table{width:100%;border-collapse:collapse;font-size:14px}td,th{padding:8px 6px;border-bottom:1px solid var(--linea);text-align:left}th{color:var(--humo);font-weight:600}
+.caja{border:1px solid var(--linea);border-radius:14px;padding:18px;background:var(--velo);max-width:420px}
+input{width:100%;padding:12px;border-radius:10px;border:1px solid var(--linea);background:#0e0a16;color:var(--crema);font-size:16px;margin:10px 0}
+button{padding:12px 18px;border-radius:30px;border:0;background:linear-gradient(180deg,var(--oro2),var(--oro));color:#1a1226;font-weight:700;cursor:pointer}
+.link{background:none;color:var(--oro2);text-decoration:underline;padding:0}
+.nota{color:var(--humo);font-size:13px}.err{color:var(--rojo)}
+</style></head><body><div class="wrap">
+<h1>Panel · Multiverso del Tarot</h1>
+<p class="sub" id="sub">Solo para el equipo.</p>
+<div id="login" class="caja" hidden>
+  <p>Entra con tu email del equipo. Te llega un enlace, sin contraseñas.</p>
+  <input type="email" id="mail" placeholder="tu@email.com" autocomplete="email">
+  <button id="enviar">Enviarme el enlace</button><p class="nota" id="msg"></p>
+</div>
+<div id="datos" hidden>
+  <div class="grid" id="kpis"></div>
+  <h2>Compras por producto</h2><table id="tProd"></table>
+  <h2>Emails de la lectura gratis, por ángulo</h2><table id="tTema"></table>
+  <h2>Por anuncio (utm_content)</h2><table id="tAnuncio"></table>
+  <h2>Últimas compras</h2><table id="tUlt"></table>
+  <p class="nota">Ingresos: estimado con los precios de lista en euros (la lectura extra a 3,99 cuenta como suelta). Lo cobrado de verdad, neto de comisiones e IVA, está en Impultienda → Ventas e Impul Pay. <button class="link" id="salir">Salir</button></p>
+</div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script>
+(function(){
+var sb=window.supabase.createClient('https://ysuwodjgcetzpdazqkmt.supabase.co','sb_publishable_XYVSOn73AFzFF3S9lzOzoA_LsASclDz');
+var $=function(id){return document.getElementById(id)};
+var NOM={suelta:'Lectura suelta / extra',pase:'Pase 30 días',anual:'Súper Pack Anual',llave:'La Llave',alma:'Oráculo Alma gemela',natal:'Carta natal',runas:'Runas',compat:'Compatibilidad'};
+function tabla(id,obj,cab){var f=Object.keys(obj||{}).sort(function(a,b){return obj[b]-obj[a]});
+  $(id).innerHTML='<tr><th>'+cab+'</th><th>Cantidad</th></tr>'+(f.length?f.map(function(k){return '<tr><td>'+(NOM[k]||k)+'</td><td>'+obj[k]+'</td></tr>'}).join(''):'<tr><td colspan="2" class="nota">Todavía nada</td></tr>')}
+function cargar(){
+  sb.rpc('panel_resumen').then(function(r){
+    if(r.error){$('sub').innerHTML='<span class="err">Esta cuenta no es del equipo.</span>';return}
+    var d=r.data,pv=d.planes_vigentes||{},planes=Object.keys(pv).reduce(function(a,k){return a+pv[k]},0);
+    var leads=d.leads_total,compras=Object.keys(d.compras_por_producto||{}).reduce(function(a,k){return a+d.compras_por_producto[k]},0);
+    var K=[[d.leads_hoy,'emails hoy'],[d.leads_7d,'emails en 7 días'],[leads,'emails en total'],[compras,'compras'],
+      [d.clientes,'clientes'],[leads?((d.clientes/leads)*100).toFixed(1)+' %':'—','de email a cliente'],
+      ['€'+Number(d.ingresos_eur||0).toLocaleString('es-ES',{minimumFractionDigits:2}),'ingresos (estimado)'],
+      [planes,'planes vigentes'],[d.pases_vencen_5d,'pases que vencen en 5 días'],[d.lecturas_usadas,'lecturas pagas usadas'],
+      [d.devoluciones,'devoluciones']];
+    $('kpis').innerHTML=K.map(function(k){return '<div class="kpi"><b>'+k[0]+'</b><span>'+k[1]+'</span></div>'}).join('');
+    tabla('tProd',d.compras_por_producto,'Producto');tabla('tTema',d.leads_por_tema,'Ángulo');tabla('tAnuncio',d.leads_por_anuncio,'Anuncio');
+    $('tUlt').innerHTML='<tr><th>Cuándo</th><th>Producto</th><th>Quién</th></tr>'+((d.ultimas_compras||[]).map(function(c){return '<tr><td>'+new Date(c.creado).toLocaleString('es-ES')+'</td><td>'+(NOM[c.detalle]||c.detalle)+'</td><td>'+c.quien+'</td></tr>'}).join('')||'<tr><td colspan="3" class="nota">Todavía nada</td></tr>');
+    $('sub').textContent='Actualizado: '+new Date().toLocaleString('es-ES');$('datos').hidden=false;
+  });
+}
+sb.auth.getSession().then(function(r){if(r.data.session){cargar()}else{$('login').hidden=false}});
+sb.auth.onAuthStateChange(function(e,s){if(s){$('login').hidden=true;cargar()}});
+$('enviar').onclick=function(){sb.auth.signInWithOtp({email:$('mail').value.trim().toLowerCase(),options:{emailRedirectTo:location.origin+location.pathname}}).then(function(r){$('msg').textContent=r.error?'No se pudo enviar.':'Listo: revisa tu correo y toca el enlace.'})};
+$('salir').onclick=function(){sb.auth.signOut().then(function(){location.reload()})};
+setInterval(function(){if(!$('datos').hidden)cargar()},60000);
+})();
+</script></body></html>
