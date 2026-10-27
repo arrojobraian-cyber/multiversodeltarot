@@ -169,6 +169,10 @@ a.boton{display:inline-flex;justify-content:center;align-items:center;text-decor
 .caja input[type=email]{font:17px var(--texto);padding:14px;border-radius:12px;border:1px solid var(--linea);background:rgba(11,9,19,.8);color:var(--pergamino)}
 .acepto{display:flex;gap:10px;align-items:flex-start;text-align:left;font-size:13px;color:var(--humo)}
 .acepto input{margin-top:3px;accent-color:#d2ad5b}
+.bien{gap:12px}.bien p{margin:0}
+.bien-ico{margin:0 auto;display:grid;place-items:center;width:64px;height:64px;border-radius:50%;border:1px solid var(--oro);color:var(--oro2);font-size:28px;box-shadow:0 0 30px rgba(210,173,91,.35),inset 0 0 16px rgba(210,173,91,.3)}
+.bien-eti{font:600 12px var(--texto);letter-spacing:.14em;text-transform:uppercase;color:var(--oro)}
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:95;max-width:min(440px,92vw);padding:14px 18px;border-radius:14px;background:linear-gradient(180deg,#2a1d3e,#150f20);box-shadow:inset 0 0 0 1px var(--oro),0 18px 50px #000;color:var(--pergamino);text-align:center}
 .extra{display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;padding:20px;border-radius:16px;border:1px solid var(--oro2);background:radial-gradient(120% 120% at 50% 0%,rgba(242,220,152,.16),rgba(11,9,19,.7))}
 .extra b{font:700 18px var(--display);color:var(--oro2)}.extra span{color:var(--humo)}
 .extra .precio{font:700 34px/1 var(--display);color:var(--pergamino)}.extra .precio small{display:block;font:italic 14px var(--texto);color:var(--humo);margin-top:4px}
@@ -391,6 +395,17 @@ a.boton{display:inline-flex;justify-content:center;align-items:center;text-decor
   <label class="acepto"><input type="checkbox" id="aceptoMail" required> Acepto recibir emails de Multiverso del Tarot. Puedo darme de baja cuando quiera.</label>
   <button class="boton" type="submit">Ver mi última carta</button></form>
   <p class="nota" id="msgMail" aria-live="polite"></p></div></div>
+
+<div class="capa" id="capaBienvenida" hidden role="dialog" aria-modal="true" aria-labelledby="tBien"><div class="caja bien">
+  <div class="bien-ico" aria-hidden="true">✦</div>
+  <p class="bien-eti">Compra confirmada</p>
+  <h2 id="tBien">Las cartas te estaban esperando</h2>
+  <p>Madame Velo ya encendió las velas y barajó el mazo para ti. Lo que viene a buscarte, encontrará el camino.</p>
+  <p class="humo">Escribe el email con el que pagaste y te enviamos la llave de tu mesa: un enlace para entrar, sin contraseñas.</p>
+  <form id="formBien"><input type="email" id="mailBien" required autocomplete="email" placeholder="el email de tu compra">
+  <button class="boton" type="submit">☽ Recibir mi llave ☾</button></form>
+  <p class="nota" id="msgBien" aria-live="polite"></p>
+  <button class="link" type="button" data-cerrar>Ahora no</button></div></div>
 <p class="aviso">El tarot es una herramienta de reflexión y entretenimiento. No reemplaza el consejo de un profesional de la salud, legal o financiero.</p>
 </div>
 
@@ -499,7 +514,12 @@ function gastarLectura(){
   if(!sesion){gratis=false;guardado('tarot.gratisUsada','1');pintarCred();return Promise.resolve(true)}
   return sb.rpc('usar_lectura').then(function(r){if(r.error||r.data<0){leerSaldo();return false}cred=r.data;pintarCred();return true})
 }
-sb.auth.getSession().then(function(r){sesion=r.data.session;leerSaldo()});
+// vuelve con el email (link de entrega de Impultienda o link de acceso): bienvenida mistica
+var vieneDeCompra=/[?&](compra|oraculo)=/.test(location.search);
+function aviso(t){var d=document.createElement('div');d.className='toast';d.textContent=t;document.body.appendChild(d);setTimeout(function(){d.remove()},6000)}
+sb.auth.getSession().then(function(r){sesion=r.data.session;leerSaldo();
+  if(vieneDeCompra&&!sesion)abrir('capaBienvenida');
+  if(vieneDeCompra&&sesion)aviso('✦ Te damos la bienvenida al Multiverso. Tus lecturas ya están en tu mesa.')});
 sb.auth.onAuthStateChange(function(_e,s){sesion=s;leerSaldo()});
 pintarCred();
 function abrir(id){$(id).hidden=false;var i=$(id).querySelector('input');if(i)i.focus()}
@@ -509,8 +529,12 @@ $('yaCompre').addEventListener('click',function(){abrir('capaEntrar')});
 [].forEach.call(document.querySelectorAll('[data-cerrar]'),function(b){b.addEventListener('click',function(){cerrar(b.closest('.capa').id)})});
 $('formEntrar').addEventListener('submit',function(ev){ev.preventDefault();
   var m=$('mailEntrar').value.trim().toLowerCase();$('msgEntrar').textContent='Enviando…';
-  sb.auth.signInWithOtp({email:m,options:{emailRedirectTo:location.origin+location.pathname}}).then(function(r){
+  sb.auth.signInWithOtp({email:m,options:{emailRedirectTo:location.href.split('#')[0]}}).then(function(r){
     $('msgEntrar').textContent=r.error?'No pudimos enviarlo. Revisa el email e inténtalo de nuevo.':'Listo: revisa tu correo (y la carpeta de spam) y toca el enlace.'})});
+$('formBien').addEventListener('submit',function(ev){ev.preventDefault();
+  var m=$('mailBien').value.trim().toLowerCase();$('msgBien').textContent='Enviando tu llave…';
+  sb.auth.signInWithOtp({email:m,options:{emailRedirectTo:location.href.split('#')[0]}}).then(function(r){
+    $('msgBien').textContent=r.error?'No pudimos enviarla. Revisa el email e inténtalo de nuevo.':'Tu llave va en camino: revisa tu correo (y la carpeta de spam) y toca «Entrar a mi mesa».'})});
 // compra: a la tienda, con el tema y las UTM con que llego
 var utm=location.search.replace(/^\?/,'').replace(/(^|&)oraculo=\w+/,'').replace(/^&/,'');MT.utm=utm;
 [].forEach.call(document.querySelectorAll('[data-compra]'),function(a){
@@ -1098,7 +1122,9 @@ function pintarPortales(){[].forEach.call(document.querySelectorAll('.multiverso
 document.addEventListener('mt-cuenta',pintarPortales);pintarPortales();
 var b=document.createElement('button');b.className='entrar orac-btn';b.type='button';b.textContent='✦ Oráculos';b.addEventListener('click',function(){MT.abrirOraculo()});
 var cu=document.querySelector('.cuenta');if(cu)cu.insertBefore(b,cu.firstChild);
-var m=/[?&]oraculo=(\w+)/.exec(location.search);if(m)MT.abrirOraculo(m[1]);
+// link de entrega de un oraculo: se abre al entrar (sin sesion, la app muestra la bienvenida para entrar)
+var m=/[?&]oraculo=(\w+)/.exec(location.search),yaAbierto=false;
+if(m)document.addEventListener('mt-cuenta',function(){if(MT.sesion&&!yaAbierto){yaAbierto=true;MT.abrirOraculo(m[1])}});
 })();
 
 </script>
