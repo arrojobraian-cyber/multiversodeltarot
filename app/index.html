@@ -172,6 +172,44 @@ a.boton{display:inline-flex;justify-content:center;align-items:center;text-decor
 .extra{display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;padding:20px;border-radius:16px;border:1px solid var(--oro2);background:radial-gradient(120% 120% at 50% 0%,rgba(242,220,152,.16),rgba(11,9,19,.7))}
 .extra b{font:700 18px var(--display);color:var(--oro2)}.extra span{color:var(--humo)}
 .extra .precio{font:700 34px/1 var(--display);color:var(--pergamino)}.extra .precio small{display:block;font:italic 14px var(--texto);color:var(--humo);margin-top:4px}
+
+.orac[hidden]{display:none}
+.orac{position:fixed;inset:0;z-index:80;overflow-y:auto;background:rgba(6,4,10,.94);backdrop-filter:blur(6px)}
+.orac-in{width:min(760px,100%);margin:0 auto;padding:12px 16px 60px;display:flex;flex-direction:column;gap:18px}
+.orac-top{position:sticky;top:0;z-index:2;display:flex;justify-content:space-between;align-items:center;padding:10px 0;background:linear-gradient(#0b0913,rgba(11,9,19,.85))}
+.orac-marca{font:700 15px var(--display);color:var(--oro2);letter-spacing:.06em}
+.orac-cab{text-align:center;display:flex;flex-direction:column;gap:8px;align-items:center}
+.orac-cab h2{font:700 26px var(--display);color:var(--oro2);margin:0}
+.orac-ico{display:grid;place-items:center;width:64px;height:64px;border-radius:50%;border:1px solid var(--oro);color:var(--oro2);font-size:30px;box-shadow:inset 0 0 18px rgba(210,173,91,.3)}
+.orac-aviso{padding:12px 14px;border-radius:12px;border:1px solid var(--oro2);background:rgba(242,220,152,.08)}
+.orac-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media (max-width:620px){.orac-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.portal em.ok{background:#2e5a3e;color:#e9f5ec}
+.orac-btn{text-decoration:none;border:1px solid var(--linea);border-radius:20px;padding:6px 12px}
+.orac-cerrado{display:flex;flex-direction:column;gap:12px;align-items:center;text-align:center;padding:22px 18px;border-radius:18px;border:1px solid var(--linea);background:rgba(11,9,19,.6)}
+.orac-precio{font:700 40px/1 var(--display);color:var(--pergamino)}
+.orac-form{display:flex;flex-direction:column;gap:14px}
+.orac-form input[type=date],.orac-form input[type=time],.orac-form input[type=text],.orac-form select,.orac-form textarea{font:17px var(--texto);padding:12px;border-radius:12px;border:1px solid var(--linea);background:rgba(11,9,19,.8);color:var(--pergamino);width:100%;color-scheme:dark}
+.orac-res[hidden]{display:none}
+.orac-res{display:flex;flex-direction:column;gap:12px;line-height:1.6}
+.orac-res h3{font:700 18px var(--display);color:var(--oro);margin:10px 0 0}
+.orac-carta{margin:0 auto;width:150px;display:flex;flex-direction:column;align-items:center;gap:6px}
+.orac-carta svg{width:150px;height:auto;filter:drop-shadow(0 10px 24px rgba(0,0,0,.6))}
+.orac-carta figcaption{font:600 14px var(--display);color:var(--oro2)}
+.orac-fila{display:flex;gap:16px;align-items:center}.orac-fila .orac-carta{width:110px;flex:none}.orac-fila .orac-carta svg{width:110px}
+.orac-mes{display:flex;gap:14px;align-items:center;padding:12px;border-radius:14px;border:1px solid var(--linea);background:rgba(11,9,19,.5)}
+.orac-mes .orac-carta{width:70px;flex:none;margin:0}.orac-mes .orac-carta svg{width:70px}
+.orac-mes b{font:700 17px var(--display);color:var(--oro2);display:block}.orac-mes p{margin:4px 0 0}
+.eti{display:block;font:600 12px var(--texto);letter-spacing:.08em;text-transform:uppercase;color:var(--oro)}
+.orac-tri{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.orac-tri div{display:flex;flex-direction:column;align-items:center;gap:4px;padding:14px 6px;border-radius:14px;border:1px solid var(--oro);background:rgba(11,9,19,.6);text-align:center}
+.orac-tri span{font-size:13px;color:var(--humo)}.orac-tri b{font:700 17px var(--display);color:var(--oro2)}.orac-tri small{color:var(--humo)}
+.orac-runa{display:flex;gap:16px;align-items:center;padding:12px;border-radius:14px;border:1px solid var(--linea);background:rgba(11,9,19,.5)}
+.piedra{flex:none;display:grid;place-items:center;width:64px;height:76px;border-radius:46% 46% 42% 42%;background:radial-gradient(70% 60% at 40% 30%,#8a8478,#4a453e 70%,#2c2924);color:#f2dc98;font-size:34px;box-shadow:inset 0 -6px 12px rgba(0,0,0,.5),0 8px 18px rgba(0,0,0,.5)}
+.piedra.rev{transform:rotate(180deg)}
+.orac-medidor{width:100%;height:12px;border-radius:8px;background:rgba(255,255,255,.08);overflow:hidden}
+.orac-medidor i{display:block;height:100%;background:linear-gradient(90deg,var(--oro),var(--oro2))}
+.orac-pct{font:700 18px var(--display);color:var(--pergamino);margin:6px 0 0}
 .demo{display:inline-block;font:700 10px var(--display);letter-spacing:.12em;color:var(--noche);background:#e7a9b4;border-radius:4px;padding:2px 7px;vertical-align:middle;font-style:normal}
 .sello-fondo{position:fixed;left:50%;top:50%;width:min(1100px,170vw);aspect-ratio:1;transform:translate(-50%,-50%);z-index:0;pointer-events:none;opacity:.13;color:var(--oro)}
 .sello-fondo svg{width:100%;height:100%;animation:girar 240s linear infinite}
@@ -296,14 +334,14 @@ a.boton{display:inline-flex;justify-content:center;align-items:center;text-decor
       </div>
 <div class="multiverso" id="multiverso" hidden>
         <div class="cabeza"><h2>Explora más del multiverso</h2><div class="adorno" aria-hidden="true">✦</div>
-          <p class="humo">Oráculos que se desbloquean una vez y quedan para siempre. Muy pronto.</p></div>
+          <p class="humo">Oráculos que se desbloquean una vez y quedan para siempre en tu cuenta.</p></div>
         <div class="portales">
-          <button class="portal" data-p="Alma gemela"><span class="ico">♡</span><b>Alma gemela</b><span class="humo">Cómo sería esa persona y qué la acerca</span><em>Próximamente</em></button>
-          <button class="portal" data-p="Carta natal"><span class="ico">✶</span><b>Carta natal</b><span class="humo">Tu sol, tu luna y tu ascendente</span><em>Próximamente</em></button>
-          <button class="portal" data-p="Runas"><span class="ico">ᚱ</span><b>Runas</b><span class="humo">El oráculo vikingo de 3 piedras</span><em>Próximamente</em></button>
-          <button class="portal" data-p="Compatibilidad"><span class="ico">⚭</span><b>Compatibilidad</b><span class="humo">Tú y otra persona, signo a signo</span><em>Próximamente</em></button>
+          <button class="portal" data-p="Alma gemela"><span class="ico">♡</span><b>Alma gemela</b><span class="humo">Cómo sería esa persona y qué la acerca</span><em>🔒 €14,99</em></button>
+          <button class="portal" data-p="Carta natal"><span class="ico">✶</span><b>Carta natal</b><span class="humo">Tu sol, tu luna y tu ascendente</span><em>🔒 €19,99</em></button>
+          <button class="portal" data-p="Runas"><span class="ico">ᚱ</span><b>Runas</b><span class="humo">El oráculo vikingo de 3 piedras</span><em>🔒 €9,99</em></button>
+          <button class="portal" data-p="Compatibilidad"><span class="ico">⚭</span><b>Compatibilidad</b><span class="humo">Tú y otra persona, signo a signo</span><em>🔒 €9,99</em></button>
         </div>
-        <p class="nota" id="notaPortal">Con el Súper Pack Anual, el primero que se abra es de regalo.</p>
+        <p class="nota" id="notaPortal">Con el Súper Pack Anual, el primero es de regalo.</p>
       </div>
     </section>
 
@@ -430,11 +468,14 @@ var calmo=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)
 })();
 
 // ---- cuenta y saldo (Supabase). Sin sesion: 1 lectura gratis guardada en este navegador.
-var CFG={"supabaseUrl": "https://ysuwodjgcetzpdazqkmt.supabase.co", "supabaseKey": "sb_publishable_XYVSOn73AFzFF3S9lzOzoA_LsASclDz", "tienda": "https://www.multiversodeltarot.shop/", "checkout": {"suelta": "https://multiversodeltarot.impultienda.ar/o/lectura-suelta", "pase": "https://multiversodeltarot.impultienda.ar/o/pase-30-dias", "anual": "https://multiversodeltarot.impultienda.ar/o/super-pack-anual", "llave": "https://multiversodeltarot.impultienda.ar/o/la-llave-del-multiverso", "extra": "https://multiversodeltarot.impultienda.ar/o/lectura-extra-con-plan"}};
+var CFG={"supabaseUrl": "https://ysuwodjgcetzpdazqkmt.supabase.co", "supabaseKey": "sb_publishable_XYVSOn73AFzFF3S9lzOzoA_LsASclDz", "tienda": "https://multiversodeltarot.impultienda.ar/", "checkout": {"suelta": "https://multiversodeltarot.impultienda.ar/o/lectura-suelta", "pase": "https://multiversodeltarot.impultienda.ar/o/pase-30-dias", "anual": "https://multiversodeltarot.impultienda.ar/o/super-pack-anual", "llave": "https://multiversodeltarot.impultienda.ar/o/la-llave-del-multiverso", "extra": "https://multiversodeltarot.impultienda.ar/o/lectura-extra-con-plan", "alma": "https://multiversodeltarot.impultienda.ar/o/oraculo-alma-gemela", "natal": "https://multiversodeltarot.impultienda.ar/o/oraculo-carta-natal", "runas": "https://multiversodeltarot.impultienda.ar/o/oraculo-de-las-runas", "compat": "https://multiversodeltarot.impultienda.ar/o/oraculo-compatibilidad"}};
 try{!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','1790274578916243');fbq('track','PageView');}catch(e){}
 function px(ev,d){try{fbq('track',ev,d||{})}catch(e){}}
 var sb=window.supabase.createClient(CFG.supabaseUrl,CFG.supabaseKey);
 var sesion=null,cred=0,gratis=true,leadOk=false,equipo=false;
+// lo que usan los oraculos (oraculos.js)
+window.MT={sb:sb,CFG:CFG,px:px,CARTAS:CARTAS,svgCara:svgCara,cuenta:null,sesion:null,utm:'',
+  irPlanes:function(){mostrar('paso4')},entrar:function(){abrir('capaEntrar')}};
 function guardado(k,v){try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v)}catch(e){return null}}
 gratis=guardado('tarot.gratisUsada')!=='1';leadOk=!!guardado('tarot.lead');
 function pintarCred(){
@@ -442,9 +483,11 @@ function pintarCred(){
   else{$('nCred').textContent=gratis?1:0;$('txtCred').textContent=gratis?'lectura gratis':'lecturas';$('btnCuenta').textContent='Entrar'}
 }
 function leerSaldo(){
-  if(!sesion){pintarCred();return Promise.resolve()}
-  return sb.from('cuentas').select('creditos,creditos_plan,plan_hasta,ilimitado').maybeSingle().then(function(r){
+  MT.sesion=sesion;
+  if(!sesion){MT.cuenta=null;pintarCred();document.dispatchEvent(new Event('mt-cuenta'));return Promise.resolve()}
+  return sb.from('cuentas').select('creditos,creditos_plan,plan,plan_hasta,ilimitado,oraculos,regalo_usado').maybeSingle().then(function(r){
     var c=r.data,vigente=!!(c&&c.plan_hasta&&new Date(c.plan_hasta)>new Date());
+    MT.cuenta=c;setTimeout(function(){document.dispatchEvent(new Event('mt-cuenta'))},0);
     cred=c?c.creditos+(vigente?c.creditos_plan:0):0;
     if(c&&c.ilimitado){cred=999;equipo=true}   // cuentas del equipo: lecturas sin limite para probar
     // la lectura a 3,99 es solo para quien tiene un plan vigente; el resto ve la suelta a 9,99
@@ -469,7 +512,7 @@ $('formEntrar').addEventListener('submit',function(ev){ev.preventDefault();
   sb.auth.signInWithOtp({email:m,options:{emailRedirectTo:location.origin+location.pathname}}).then(function(r){
     $('msgEntrar').textContent=r.error?'No pudimos enviarlo. Revisa el email e inténtalo de nuevo.':'Listo: revisa tu correo (y la carpeta de spam) y toca el enlace.'})});
 // compra: a la tienda, con el tema y las UTM con que llego
-var utm=location.search.replace(/^\?/,'');
+var utm=location.search.replace(/^\?/,'').replace(/(^|&)oraculo=\w+/,'').replace(/^&/,'');MT.utm=utm;
 [].forEach.call(document.querySelectorAll('[data-compra]'),function(a){
   var u=CFG.checkout[a.dataset.compra]||CFG.tienda;a.href=u+(utm?(u.indexOf('?')<0?'?':'&')+utm:'');a.target='_blank';a.rel='noopener';
   a.addEventListener('click',function(){px('InitiateCheckout',{content_name:a.dataset.compra})})});
@@ -656,10 +699,408 @@ function pedirMail(seguir){
 function escapar(t){return t.replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
 
 $('otra').addEventListener('click',function(){if(!puedeLeer()){mostrar('paso4')}else{armarMazo()}});
-[].forEach.call(document.querySelectorAll('.portal'),function(p){p.addEventListener('click',function(){$('notaPortal').textContent='«'+p.dataset.p+'» se abre muy pronto. Te avisaremos por email.'})});
+
 $('volver').addEventListener('click',function(){mostrar('paso1')});
 
 })();
+</script>
+<script>
+// Oraculos del Multiverso: carta del dia, tu año en cartas, alma gemela, carta natal, runas y compatibilidad.
+// Lo inyecta armar_app.py despues del script principal; usa window.MT (cuenta, supabase, cartas, checkout).
+(function(){
+'use strict';
+var MT=window.MT;if(!MT)return;
+var $=function(id){return document.getElementById(id)};
+function esc(t){return String(t).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+
+// ---------- azar con semilla: la misma persona, el mismo dia, la misma respuesta
+function hash(s){var h=1779033703^s.length;for(var i=0;i<s.length;i++){h=Math.imul(h^s.charCodeAt(i),3432918353);h=h<<13|h>>>19}return h>>>0}
+function azar(semilla){var a=hash(semilla);return function(){a|=0;a=a+0x6D2B79F5|0;var t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function barajar(n,r){var a=[];for(var i=0;i<n;i++)a.push(i);for(i=n-1;i>0;i--){var j=Math.floor(r()*(i+1)),t=a[i];a[i]=a[j];a[j]=t}return a}
+function hoyStr(){var d=new Date();return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()}
+
+// ---------- signos
+var ELEM={fuego:'Fuego',tierra:'Tierra',aire:'Aire',agua:'Agua'};
+var COMPL={fuego:'aire',aire:'fuego',tierra:'agua',agua:'tierra'};
+var SIGNOS=[
+ {n:'Aries',g:'♈',e:'fuego',m:'cardinal',ini:[3,21],
+  sol:'Tu centro es el impulso: te sientes con vida cuando empiezas algo y abres camino donde no lo había. Aprendes haciendo, no esperando.',
+  luna:'Emocionalmente reaccionas rápido y en caliente, y también se te pasa rápido. Necesitas moverte para soltar lo que sientes.',
+  asc:'Los demás perciben en ti franqueza, valentía y prisa. Entras en una habitación y se nota.',
+  amor:'necesita pasión y un poco de reto; se apaga con la rutina tibia',sombra:'la impaciencia'},
+ {n:'Tauro',g:'♉',e:'tierra',m:'fijo',ini:[4,20],
+  sol:'Tu centro es la calma constante: construyes despacio y lo que haces, dura. Valoras lo que se puede tocar, saborear y conservar.',
+  luna:'Te serenas con lo conocido: tu casa, tu comida, tus rutinas. Cuando algo te duele, lo guardas mucho tiempo.',
+  asc:'Transmites calma, fiabilidad y buen gusto. La gente siente que contigo se puede contar.',
+  amor:'necesita seguridad, cariño físico y hechos más que palabras',sombra:'la terquedad'},
+ {n:'Géminis',g:'♊',e:'aire',m:'mutable',ini:[5,21],
+  sol:'Tu centro es la curiosidad: piensas rápido, conectas ideas y personas, y te aburre lo que nunca cambia.',
+  luna:'Procesas lo que sientes hablándolo o escribiéndolo. Si no lo pones en palabras, te da vueltas en la cabeza.',
+  asc:'Transmites ingenio, conversación y un espíritu joven. Caes bien a la primera.',
+  amor:'necesita conversación, humor y libertad para cambiar',sombra:'la dispersión'},
+ {n:'Cáncer',g:'♋',e:'agua',m:'cardinal',ini:[6,21],
+  sol:'Tu centro es cuidar: sientes hondo, proteges a los tuyos y tu memoria guarda cada gesto.',
+  luna:'La Luna está en casa en este signo: tus emociones son intensas y cambiantes como las mareas. Necesitas un refugio donde sentirte a salvo.',
+  asc:'Transmites dulzura y protección, con algo de reserva al principio. Cuesta entrar, pero quien entra se queda.',
+  amor:'necesita sentirse prioridad, cuidado y parte de un hogar',sombra:'la susceptibilidad'},
+ {n:'Leo',g:'♌',e:'fuego',m:'fijo',ini:[7,23],
+  sol:'Tu centro es brillar con el corazón: tienes un alma generosa y leal, y necesitas expresar lo que llevas dentro.',
+  luna:'Necesitas sentir que te ven y te quieren. Cuando te ignoran, te duele más de lo que dejas ver.',
+  asc:'Transmites seguridad, calidez y presencia. Tienes algo de escenario aunque no lo busques.',
+  amor:'necesita admiración, gestos grandes y lealtad sin dudas',sombra:'el orgullo'},
+ {n:'Virgo',g:'♍',e:'tierra',m:'mutable',ini:[8,23],
+  sol:'Tu centro es mejorar las cosas: observas los detalles, ayudas de forma práctica y te exiges mucho.',
+  luna:'Te calmas ordenando: listas, planes, una casa en orden. Cuando te preocupas, le das demasiadas vueltas.',
+  asc:'Transmites discreción, atención y eficacia. Parece que lo tienes todo bajo control.',
+  amor:'necesita cuidado en los detalles, coherencia y sentirse útil para el otro',sombra:'la autoexigencia'},
+ {n:'Libra',g:'♎',e:'aire',m:'cardinal',ini:[9,23],
+  sol:'Tu centro es la armonía: buscas el equilibrio, la belleza y la justicia en los vínculos.',
+  luna:'Te sientes bien cuando hay paz a tu alrededor. Los conflictos te desordenan por dentro.',
+  asc:'Transmites encanto, diplomacia y elegancia. Sabes qué decir para que todos estén a gusto.',
+  amor:'necesita reciprocidad, delicadeza y alguien con quien formar equipo',sombra:'la indecisión'},
+ {n:'Escorpio',g:'♏',e:'agua',m:'fijo',ini:[10,23],
+  sol:'Tu centro es la intensidad: vas al fondo de todo, no te conformas con lo superficial y te transformas una y otra vez.',
+  luna:'Sientes con una fuerza que pocos imaginan. Confías poco, pero cuando confías, es del todo.',
+  asc:'Transmites magnetismo y misterio; cuesta leerte. Tu mirada dice más que tus palabras.',
+  amor:'necesita entrega total, verdad y una conexión profunda',sombra:'los celos y el control'},
+ {n:'Sagitario',g:'♐',e:'fuego',m:'mutable',ini:[11,22],
+  sol:'Tu centro es la búsqueda: necesitas horizonte, viajes, ideas grandes y un sentido para lo que vives.',
+  luna:'Te recuperas con optimismo y aire libre. Si te encierran, te apagas.',
+  asc:'Transmites alegría, franqueza y ganas de aventura. Contagias ganas de vivir.',
+  amor:'necesita libertad, risas y alguien con quien crecer y descubrir',sombra:'la falta de tacto'},
+ {n:'Capricornio',g:'♑',e:'tierra',m:'cardinal',ini:[12,22],
+  sol:'Tu centro es la constancia: subes la montaña paso a paso, con responsabilidad y metas claras.',
+  luna:'Te cuesta mostrar lo que sientes y lo resuelves trabajando. Por dentro hay más ternura de la que parece.',
+  asc:'Transmites seriedad, madurez y capacidad. Inspiras respeto desde el primer momento.',
+  amor:'necesita estabilidad, compromiso real y un proyecto en común',sombra:'la rigidez'},
+ {n:'Acuario',g:'♒',e:'aire',m:'fijo',ini:[1,20],
+  sol:'Tu centro es la libertad de ser diferente: piensas a futuro, valoras la amistad y no sigues el molde.',
+  luna:'Tomas distancia para entender lo que sientes. Necesitas espacio propio aunque quieras mucho.',
+  asc:'Transmites originalidad, independencia y algo imprevisible. Allí donde estás, se te nota.',
+  amor:'necesita complicidad, amistad dentro de la pareja y respeto por su espacio',sombra:'la frialdad aparente'},
+ {n:'Piscis',g:'♓',e:'agua',m:'mutable',ini:[2,19],
+  sol:'Tu centro es la sensibilidad: intuyes lo que otros no dicen, te emocionas con facilidad y tienes un mundo interior inmenso.',
+  luna:'Absorbes las emociones del ambiente como una esponja. Necesitas ratos a solas, música o agua para recargarte.',
+  asc:'Transmites dulzura, imaginación y compasión. La gente se abre contigo sin saber por qué.',
+  amor:'necesita ternura, romanticismo y un amor que también sea refugio',sombra:'la tendencia a idealizar'}
+];
+SIGNOS.forEach(function(x){x.g+='︎'}); // simbolo de texto, no emoji
+var MESES=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+function signoDeFecha(m,d){ // m 1-12
+  var orden=[[1,20,10],[2,19,11],[3,21,0],[4,20,1],[5,21,2],[6,21,3],[7,23,4],[8,23,5],[9,23,6],[10,23,7],[11,22,8],[12,22,9]];
+  var s=9;for(var k=0;k<orden.length;k++){if(m>orden[k][0]||(m===orden[k][0]&&d>=orden[k][1]))s=orden[k][2]}
+  return s;
+}
+function signoDeLongitud(l){return Math.floor(((l%360)+360)%360/30)}
+function temporada(i){var s=SIGNOS[i],f=SIGNOS[(i+1)%12];return 'del '+s.ini[1]+' de '+MESES[s.ini[0]-1]+' al '+(f.ini[1]-1)+' de '+MESES[f.ini[0]-1]}
+
+// ---------- astronomia (validada contra las efemerides DE421 de la NASA: error < 0,05°)
+var R=Math.PI/180;
+function diaJuliano(ms){return ms/86400000+2440587.5}
+function posiciones(ms,lat,lon){
+  var J=diaJuliano(ms),T=(J-2451545)/36525,s=function(x){return Math.sin(x*R)};
+  var L0=280.46646+36000.76983*T,M=357.52911+35999.05029*T;
+  var C=(1.914602-0.004817*T)*s(M)+0.019993*s(2*M)+0.000289*s(3*M);
+  var sol=((L0+C-0.00569-0.00478*s(125.04-1934.136*T))%360+360)%360;
+  var Lp=218.3164477+481267.88123421*T,D=297.8501921+445267.1114034*T,Ms=357.5291092+35999.0502909*T,
+      Mp=134.9633964+477198.8675055*T,F=93.2720950+483202.0175233*T;
+  var luna=Lp+6.288774*s(Mp)+1.274027*s(2*D-Mp)+0.658314*s(2*D)+0.213618*s(2*Mp)-0.185116*s(Ms)-0.114332*s(2*F)
+    +0.058793*s(2*D-2*Mp)+0.057066*s(2*D-Ms-Mp)+0.053322*s(2*D+Mp)+0.045758*s(2*D-Ms)-0.040923*s(Ms-Mp)-0.034720*s(D)-0.030383*s(Ms+Mp);
+  luna=(luna%360+360)%360;
+  var asc=null;
+  if(lat!=null){var eps=23.439291-0.0130042*T,th=((280.46061837+360.98564736629*(J-2451545)+lon)%360+360)%360;
+    asc=(Math.atan2(Math.cos(th*R),-(Math.sin(th*R)*Math.cos(eps*R)+Math.tan(lat*R)*Math.sin(eps*R)))/R+360)%360}
+  return {sol:sol,luna:luna,asc:asc};
+}
+// hora local de un lugar -> milisegundos UTC (con los cambios de hora historicos que trae el navegador)
+function desfase(ms,tz){
+  var p={};new Intl.DateTimeFormat('en-US',{timeZone:tz,hourCycle:'h23',year:'numeric',month:'numeric',day:'numeric',hour:'numeric',minute:'numeric',second:'numeric'})
+    .formatToParts(new Date(ms)).forEach(function(x){p[x.type]=x.value});
+  return Date.UTC(+p.year,+p.month-1,+p.day,+p.hour%24,+p.minute,+p.second)-ms;
+}
+function localAUTC(y,m,d,h,mi,tz){var guess=Date.UTC(y,m-1,d,h,mi);var u=guess-desfase(guess,tz);return guess-desfase(u,tz)}
+var CIUDADES=[
+ ['A Coruña',43.37,-8.40],['Albacete',38.99,-1.86],['Alicante',38.35,-0.48],['Almería',36.84,-2.46],['Ávila',40.66,-4.70],['Badajoz',38.88,-6.97],
+ ['Barcelona',41.39,2.17],['Bilbao',43.26,-2.93],['Burgos',42.34,-3.70],['Cáceres',39.47,-6.37],['Cádiz',36.53,-6.29],['Castellón',39.99,-0.05],
+ ['Ceuta',35.89,-5.32],['Ciudad Real',38.99,-3.93],['Córdoba',37.88,-4.78],['Cuenca',40.07,-2.13],['Girona',41.98,2.82],['Granada',37.18,-3.60],
+ ['Guadalajara',40.63,-3.17],['Huelva',37.26,-6.95],['Huesca',42.14,-0.41],['Jaén',37.77,-3.79],['Las Palmas de Gran Canaria',28.12,-15.44,'Atlantic/Canary'],
+ ['León',42.60,-5.57],['Lleida',41.62,0.62],['Logroño',42.47,-2.45],['Lugo',43.01,-7.56],['Madrid',40.42,-3.70],['Málaga',36.72,-4.42],
+ ['Melilla',35.29,-2.94],['Murcia',37.99,-1.13],['Ourense',42.34,-7.86],['Oviedo',43.36,-5.85],['Palencia',42.01,-4.53],['Palma',39.57,2.65],
+ ['Pamplona',42.81,-1.64],['Pontevedra',42.43,-8.64],['Salamanca',40.97,-5.66],['San Sebastián',43.32,-1.98],
+ ['Santa Cruz de Tenerife',28.46,-16.25,'Atlantic/Canary'],['Santander',43.46,-3.80],['Segovia',40.95,-4.12],['Sevilla',37.39,-5.98],
+ ['Soria',41.76,-2.46],['Tarragona',41.12,1.25],['Teruel',40.34,-1.11],['Toledo',39.86,-4.02],['Valencia',39.47,-0.38],['Valladolid',41.65,-4.72],
+ ['Vitoria',42.85,-2.67],['Zamora',41.50,-5.75],['Zaragoza',41.65,-0.89],
+ ['Asunción (Paraguay)',-25.26,-57.58,'America/Asuncion'],['Bogotá (Colombia)',4.71,-74.07,'America/Bogota'],['Buenos Aires (Argentina)',-34.60,-58.38,'America/Argentina/Buenos_Aires'],
+ ['Caracas (Venezuela)',10.48,-66.90,'America/Caracas'],['Ciudad de México',19.43,-99.13,'America/Mexico_City'],['La Habana (Cuba)',23.11,-82.37,'America/Havana'],
+ ['La Paz (Bolivia)',-16.50,-68.15,'America/La_Paz'],['Lima (Perú)',-12.05,-77.04,'America/Lima'],['Montevideo (Uruguay)',-34.90,-56.16,'America/Montevideo'],
+ ['Quito (Ecuador)',-0.18,-78.47,'America/Guayaquil'],['Santiago de Chile',-33.45,-70.67,'America/Santiago'],['Santo Domingo (R. Dominicana)',18.49,-69.93,'America/Santo_Domingo'],
+ ['Berlín',52.52,13.40,'Europe/Berlin'],['Bucarest',44.43,26.10,'Europe/Bucharest'],['Lisboa',38.72,-9.14,'Europe/Lisbon'],['Londres',51.51,-0.13,'Europe/London'],
+ ['París',48.86,2.35,'Europe/Paris'],['Rabat (Marruecos)',34.02,-6.84,'Africa/Casablanca'],['Roma',41.90,12.50,'Europe/Rome']
+];
+
+// ---------- runas (futhark antiguo)
+var RUNAS=[
+ ['Fehu','ᚠ','abundancia','Abundancia que se gana. Lo que siembras empieza a dar fruto: cuida lo que ya tienes.','Algo se escapa entre los dedos. Revisa en qué se te va la energía o el dinero.'],
+ ['Uruz','ᚢ','fuerza','Fuerza vital. Tienes más resistencia de la que crees y la vas a necesitar bien usada.','Energía mal usada o cansancio acumulado. Descansa antes de forzar.'],
+ ['Thurisaz','ᚦ','la espina','Un obstáculo que protege. Detente antes de actuar: no todo hay que atravesarlo.','Un impulso que hiere. Cuidado con las reacciones en caliente.'],
+ ['Ansuz','ᚨ','el mensaje','Llega una señal o una conversación importante. Escucha lo que se dice, y también lo que se calla.','Malentendidos. Pregunta antes de suponer.'],
+ ['Raidho','ᚱ','el camino','Movimiento. Un viaje, un cambio o un paso en la dirección correcta.','Retrasos o rumbo perdido. Revisa hacia dónde vas y por qué.'],
+ ['Kenaz','ᚲ','la antorcha','Se enciende una luz sobre algo que no veías. Claridad y creatividad.','Algo se apaga. Lo que ya no te da calor, déjalo ir.'],
+ ['Gebo','ᚷ','el regalo','Intercambio y unión: dar y recibir en equilibrio. Un vínculo que suma.',null],
+ ['Wunjo','ᚹ','la alegría','Alegría y armonía. Algo sale bien y te lo mereces.','Una tristeza pasajera. No es para siempre.'],
+ ['Hagalaz','ᚺ','el granizo','Una sacudida que no controlas. Lo que se rompe deja sitio a algo más sólido.',null],
+ ['Nauthiz','ᚾ','la necesidad','La limitación enseña qué es lo esencial. Paciencia: esto también pasa.','Una carencia que agota. Pide ayuda: no es debilidad.'],
+ ['Isa','ᛁ','el hielo','Pausa. Las cosas están congeladas por ahora: no fuerces, espera el deshielo.',null],
+ ['Jera','ᛃ','la cosecha','Lo que hiciste con constancia llega a su tiempo. Ciclos que se cumplen.',null],
+ ['Eihwaz','ᛇ','el tejo','Resistencia y transformación. Aguantas y sales con más fuerza.',null],
+ ['Perthro','ᛈ','el misterio','Algo oculto se revela. Confía en tu intuición, sabe más de lo que crees.','Secretos que pesan. Mira lo que no quieres ver.'],
+ ['Algiz','ᛉ','la protección','Hay más protección a tu alrededor de lo que imaginas. Tu instinto te guía.','Te sientes sin defensas. Pon límites claros.'],
+ ['Sowilo','ᛊ','el sol','Éxito y vitalidad. El sol sale de tu lado: es momento de avanzar.',null],
+ ['Tiwaz','ᛏ','el guerrero','Justicia y valentía. Defiende lo que es justo, con calma y con honor.','Una batalla que no vale la pena. Elige dónde poner tu fuerza.'],
+ ['Berkano','ᛒ','el abedul','Algo nuevo crece, en ti o a tu alrededor. Cuídalo como a un brote.','Estancamiento. Lo que está naciendo necesita más cuidado.'],
+ ['Ehwaz','ᛖ','el caballo','Avance y confianza mutua. Un compañero de camino, un progreso estable.','Desconfianza o un cambio forzado. Ve a tu ritmo.'],
+ ['Mannaz','ᛗ','la humanidad','Tú y los demás. Conócete y apóyate en tu gente.','Aislamiento. No tienes que cargar con todo a solas.'],
+ ['Laguz','ᛚ','el agua','Intuición y fluidez. Déjate llevar por lo que sientes de verdad.','Confusión emocional. No decidas desde el miedo.'],
+ ['Ingwaz','ᛜ','la semilla','Un ciclo se completa y algo germina. Descanso fértil antes de lo nuevo.',null],
+ ['Dagaz','ᛞ','el amanecer','Un cambio de luz total: pasas de la noche al día.',null],
+ ['Othala','ᛟ','la herencia','Hogar, raíces y lo que es tuyo de verdad.','Apego a lo viejo. Suelta lo que ya no te pertenece.']
+];
+var POS_RUNAS=['Lo que te ha traído hasta aquí','Lo que se mueve ahora','El consejo de las runas'];
+
+// ---------- compatibilidad
+var ASPECTO=[
+ ['Mismo signo',78,'Os entendéis sin explicaros: veis el mundo con las mismas gafas.','Compartís también los defectos, y a veces os veis reflejados en lo que no os gusta.','Cada uno necesita un espacio propio para no fundirse en el otro.'],
+ ['Signos vecinos',58,'Os complementáis en lo práctico: uno aporta lo que al otro le falta.','Los ritmos son distintos y eso puede leerse como falta de interés.','Explicad lo que necesitáis con palabras, sin dar nada por sabido.'],
+ ['Sextil, la buena sintonía',82,'Hay amistad dentro del vínculo: os divertís y os animáis mutuamente.','Puede faltar una chispa de riesgo si todo es demasiado cómodo.','Proponed planes nuevos de vez en cuando: la sintonía crece con la aventura.'],
+ ['Cuadratura, el reto',52,'Hay atracción y tensión a partes iguales: os hacéis crecer.','Chocáis en cómo se hacen las cosas y ninguno quiere ceder.','Elegid juntos qué batallas importan y soltad el resto.'],
+ ['Trígono, la armonía',91,'Fluís: mismo elemento, mismos valores, un entendimiento natural.','La comodidad puede volverse rutina si no la cuidáis.','Celebrad lo que funciona y no dejéis que la costumbre apague el detalle.'],
+ ['Quincuncio, el ajuste',47,'Os atrae lo desconocido del otro: aprendéis mucho.','Cuesta encontrar el punto medio; a veces habláis idiomas distintos.','Paciencia y curiosidad: preguntad en lugar de suponer.'],
+ ['Oposición, los polos que se atraen',73,'Sois dos mitades: lo que a uno le sobra, al otro le falta.','Si cada uno tira de su lado, el vínculo se tensa.','Buscad el centro: alternad quién elige y quién acompaña.']
+];
+var PAR_ELEM={
+ 'fuego-fuego':'Dos fuegos: pasión, entusiasmo y competencia. Mucha energía que hay que dirigir hacia el mismo lado.',
+ 'tierra-tierra':'Dos tierras: estabilidad, lealtad y proyectos que se construyen ladrillo a ladrillo.',
+ 'aire-aire':'Dos aires: conversación sin fin, ideas compartidas y mucha libertad.',
+ 'agua-agua':'Dos aguas: una conexión emocional profunda, casi sin palabras.',
+ 'aire-fuego':'El aire aviva el fuego: os inspiráis y os empujáis a ir más lejos.',
+ 'agua-tierra':'El agua nutre la tierra: cuidado mutuo, ternura y raíces.',
+ 'fuego-tierra':'El fuego quiere ya, la tierra quiere seguro: juntos podéis hacer realidad grandes planes si respetáis los tiempos.',
+ 'agua-fuego':'Fuego y agua hacen vapor: intensidad emocional, pasión y algún choque.',
+ 'aire-tierra':'El aire sueña, la tierra concreta: una alianza útil si el uno no frena ni dispersa al otro.',
+ 'agua-aire':'El agua siente, el aire piensa: aprendéis a hablar de lo que sentís.'
+};
+function parElem(a,b){var k=[a,b].sort().join('-');return PAR_ELEM[k]||PAR_ELEM[[b,a].join('-')]||''}
+
+// ---------- alma gemela
+var AG={
+ fuego:{como:'una persona con chispa, que propone planes, se ríe fuerte y te saca de la rutina',reconocer:'te hará sentir ganas de hacer cosas que llevabas tiempo aplazando',donde:'en un viaje, en una actividad al aire libre o en una celebración'},
+ tierra:{como:'una persona serena y constante, que cumple lo que dice y cuida con hechos',reconocer:'a su lado sentirás calma, como si hubieras llegado a casa',donde:'en el trabajo, en algo relacionado con la naturaleza, la comida o un oficio'},
+ aire:{como:'una persona curiosa y comunicativa, con conversación y buen humor',reconocer:'hablaréis horas sin daros cuenta y te entenderá a la primera',donde:'en un curso, a través de amigos en común o en una conversación inesperada'},
+ agua:{como:'una persona sensible e intuitiva, que escucha de verdad y lee lo que no dices',reconocer:'sentirás que te conoce desde hace tiempo, sin necesidad de explicarte',donde:'en un lugar tranquilo, cerca del agua, en algo artístico o en un momento delicado de tu vida'}
+};
+var ACERCA={
+ fuego:'Baja el ritmo lo justo para dejar que alguien te alcance: no todo tiene que ser ya.',
+ tierra:'Sal un poco de lo conocido: el amor que buscas no siempre aparece en los sitios de siempre.',
+ aire:'Pasa de la cabeza al cuerpo: deja de analizar cada señal y permítete sentir.',
+ agua:'Cuida tu energía y no te entregues a quien no te corresponde: lo que es para ti, te elige también.'
+};
+
+// ---------- estado y acceso
+var INFO={
+ dia:{t:'Carta del día',ico:'☀',d:'Una carta para hoy, solo para ti',inc:'Incluida en el Pase, el Anual y la Llave'},
+ anio:{t:'Tu año en cartas',ico:'⟡',d:'Una carta para cada uno de tus próximos 12 meses',inc:'Incluido en el Súper Pack Anual y la Llave'},
+ alma:{t:'Alma gemela',ico:'♡',d:'Cómo sería esa persona y qué la acerca',precio:'€14,99'},
+ natal:{t:'Carta natal',ico:'✶',d:'Tu sol, tu luna y tu ascendente',precio:'€19,99'},
+ runas:{t:'Runas',ico:'ᚱ',d:'El oráculo de las tres piedras',precio:'€9,99'},
+ compat:{t:'Compatibilidad',ico:'⚭',d:'Tú y otra persona, signo a signo',precio:'€9,99'}
+};
+var ORDEN=['dia','anio','alma','natal','runas','compat'];
+function cuenta(){return MT.sesion?MT.cuenta:null}
+function vigente(c){return !!(c&&c.plan_hasta&&new Date(c.plan_hasta)>new Date())}
+function acceso(k){
+  var c=cuenta();if(!c)return 'fuera';
+  if(c.ilimitado)return 'abierto';
+  if(k==='dia')return vigente(c)&&c.plan!=='ninguno'?'abierto':'cerrado';
+  if(k==='anio')return vigente(c)&&(c.plan==='anual'||c.plan==='llave')?'abierto':'cerrado';
+  if((c.oraculos||[]).indexOf(k)>=0)return 'abierto';
+  if(vigente(c)&&c.plan==='anual'&&!c.regalo_usado)return 'regalo';
+  return 'cerrado';
+}
+
+// ---------- interfaz
+var capa=document.createElement('div');capa.className='orac';capa.id='oraculos';capa.hidden=true;
+capa.setAttribute('role','dialog');capa.setAttribute('aria-modal','true');capa.setAttribute('aria-label','Oráculos del Multiverso');
+capa.innerHTML='<div class="orac-in"><div class="orac-top"><button class="link" type="button" id="oracAtras" hidden>← Oráculos</button>'+
+  '<b class="orac-marca">✦ Multiverso</b><button class="link" type="button" id="oracCerrar">Cerrar ✕</button></div><div id="oracCuerpo"></div></div>';
+document.body.appendChild(capa);
+var actual=null;
+function abrirCapa(){capa.hidden=false;document.documentElement.style.overflow='hidden';capa.scrollTop=0}
+function cerrarCapa(){capa.hidden=true;document.documentElement.style.overflow=''}
+$('oracCerrar').addEventListener('click',cerrarCapa);
+$('oracAtras').addEventListener('click',function(){inicio()});
+capa.addEventListener('click',function(e){if(e.target===capa)cerrarCapa()});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!capa.hidden)cerrarCapa()});
+
+function sello(k){
+  var a=acceso(k),i=INFO[k];
+  if(a==='abierto')return '<em class="ok">Abierto</em>';
+  if(a==='regalo')return '<em class="ok">Tu regalo</em>';
+  return '<em>🔒 '+(i.precio||'Con plan')+'</em>';
+}
+function inicio(){
+  actual=null;$('oracAtras').hidden=true;
+  var c=cuenta();
+  var h='<div class="orac-cab"><h2>Los oráculos del Multiverso</h2><p class="humo">Se desbloquean una vez y quedan para siempre en tu cuenta.</p>';
+  if(c&&vigente(c)&&c.plan==='anual'&&!c.regalo_usado&&!c.ilimitado)h+='<p class="orac-aviso">Tu Súper Pack Anual incluye <b>un oráculo de regalo</b>. Entra en el que prefieras y elígelo.</p>';
+  if(!MT.sesion)h+='<p class="humo">¿Ya compraste? <button class="link" type="button" id="oracEntrar">Entra con tu email</button></p>';
+  h+='</div><div class="portales orac-grid">';
+  ORDEN.forEach(function(k){var i=INFO[k];h+='<button class="portal" type="button" data-k="'+k+'"><span class="ico">'+i.ico+'</span><b>'+i.t+'</b><span class="humo">'+i.d+'</span>'+sello(k)+'</button>'});
+  h+='</div><p class="aviso">El tarot, la astrología y las runas son herramientas de reflexión y entretenimiento.</p>';
+  $('oracCuerpo').innerHTML=h;
+  [].forEach.call($('oracCuerpo').querySelectorAll('[data-k]'),function(b){b.addEventListener('click',function(){abrir(b.dataset.k)})});
+  if($('oracEntrar'))$('oracEntrar').addEventListener('click',function(){cerrarCapa();MT.entrar()});
+}
+function abrir(k){
+  actual=k;$('oracAtras').hidden=false;capa.scrollTop=0;
+  var a=acceso(k);
+  if(a==='abierto'){VISTA[k]();return}
+  var i=INFO[k],h='<div class="orac-cab"><div class="orac-ico">'+i.ico+'</div><h2>'+i.t+'</h2><p class="humo">'+i.d+'</p></div><div class="orac-cerrado">';
+  if(a==='regalo'){
+    h+='<p>Tu <b>Súper Pack Anual</b> te regala un oráculo para siempre. ¿Quieres que sea <b>'+i.t+'</b>?</p>'+
+       '<p class="humo">Solo puedes elegir uno, y la elección no se cambia.</p><button class="boton" type="button" id="oracRegalo">Elegir este de regalo</button><p class="nota" id="oracMsg"></p>';
+  }else if(k==='dia'||k==='anio'){
+    h+='<p>'+i.inc+'.</p>'+(MT.sesion?'':'<p class="humo">Si ya tienes un plan, <button class="link" type="button" id="oracEntrar">entra con tu email</button>.</p>')+
+       '<button class="boton" type="button" id="oracPlanes">Ver los planes</button>';
+  }else{
+    h+='<p>Desbloquéalo una vez y queda en tu cuenta para siempre, sin gastar lecturas.</p><div class="orac-precio">'+i.precio+'</div>'+
+       '<a class="boton" id="oracComprar" href="#">Quiero '+i.t+'</a>'+
+       '<p class="humo">Incluido en <b>La Llave del Multiverso</b>, y uno de regalo con el <b>Súper Pack Anual</b>.</p>'+
+       (MT.sesion?'':'<p class="humo">¿Ya lo compraste? <button class="link" type="button" id="oracEntrar">Entra con tu email</button></p>');
+  }
+  h+='</div>';$('oracCuerpo').innerHTML=h;
+  if($('oracEntrar'))$('oracEntrar').addEventListener('click',function(){cerrarCapa();MT.entrar()});
+  if($('oracPlanes'))$('oracPlanes').addEventListener('click',function(){cerrarCapa();MT.irPlanes()});
+  if($('oracComprar')){var u=MT.CFG.checkout[k]||MT.CFG.tienda;$('oracComprar').href=u+(MT.utm?(u.indexOf('?')<0?'?':'&')+MT.utm:'');
+    $('oracComprar').target='_blank';$('oracComprar').rel='noopener';$('oracComprar').addEventListener('click',function(){MT.px('InitiateCheckout',{content_name:k})})}
+  if($('oracRegalo'))$('oracRegalo').addEventListener('click',function(){
+    $('oracRegalo').disabled=true;$('oracMsg').textContent='Abriendo…';
+    MT.sb.rpc('elegir_regalo',{p_oraculo:k}).then(function(r){
+      if(r.error){$('oracMsg').textContent='No se pudo elegir. Vuelve a entrar con tu email e inténtalo otra vez.';$('oracRegalo').disabled=false;return}
+      MT.cuenta.oraculos=r.data;MT.cuenta.regalo_usado=true;abrir(k)})});
+}
+function cab(k,extra){var i=INFO[k];return '<div class="orac-cab"><div class="orac-ico">'+i.ico+'</div><h2>'+i.t+'</h2>'+(extra||'')+'</div>'}
+function fechaCampo(id,txt){return '<label class="campo"><span>'+txt+'</span><input type="date" id="'+id+'" required min="1920-01-01" max="'+new Date().toISOString().slice(0,10)+'"></label>'}
+function leerFecha(id){var v=$(id).value;if(!v)return null;var p=v.split('-');return{y:+p[0],m:+p[1],d:+p[2]}}
+function nombreUsuario(){var n=($('nombre')&&$('nombre').value||'').trim();return n&&n!=='Lucía'?n:''}
+function semillaPersona(){return (MT.sesion&&MT.sesion.user&&MT.sesion.user.email)||'invitado'}
+function cartaHTML(i,pie){return '<figure class="orac-carta">'+MT.svgCara(i)+(pie?'<figcaption>'+pie+'</figcaption>':'')+'</figure>'}
+function mostrarRes(h){var r=$('oracRes');r.innerHTML=h;r.hidden=false;setTimeout(function(){r.scrollIntoView({behavior:'smooth',block:'start'})},60)}
+
+var VISTA={
+ dia:function(){
+  var r=azar(semillaPersona()+'|dia|'+hoyStr()),i=Math.floor(r()*22),c=MT.CARTAS[i];
+  var f=new Date().toLocaleDateString('es-ES',{weekday:'long',day:'numeric',month:'long'});
+  $('oracCuerpo').innerHTML=cab('dia','<p class="humo">'+f.charAt(0).toUpperCase()+f.slice(1)+'</p>')+
+   '<div class="orac-res">'+cartaHTML(i,c.n)+'<div class="impacto"><span class="eti">Tu carta de hoy</span><p class="grande">«'+esc(c.up[0].charAt(0).toUpperCase()+c.up[0].slice(1))+'»</p></div>'+
+   '<p>'+esc(c.up[1])+'</p><h3>Para hoy</h3><p>'+esc(c.futuro)+'</p><p class="humo">Mañana te espera otra carta.</p></div>';
+ },
+ anio:function(){
+  var hoy=new Date(),r=azar(semillaPersona()+'|anio|'+hoy.getFullYear()+'-'+hoy.getMonth()),orden=barajar(22,r),h='';
+  for(var k=0;k<12;k++){var d=new Date(hoy.getFullYear(),hoy.getMonth()+k,1),i=orden[k],c=MT.CARTAS[i];
+    h+='<div class="orac-mes">'+cartaHTML(i)+'<div><b>'+MESES[d.getMonth()].charAt(0).toUpperCase()+MESES[d.getMonth()].slice(1)+' '+d.getFullYear()+'</b>'+
+       '<span class="eti">'+esc(c.n)+' · '+esc(c.up[0])+'</span><p>'+esc(c.futuro)+'</p></div></div>'}
+  $('oracCuerpo').innerHTML=cab('anio','<p class="humo">Una carta para cada uno de tus próximos doce meses. Vuelve al empezar cada mes.</p>')+'<div class="orac-res">'+h+'</div>';
+ },
+ alma:function(){
+  $('oracCuerpo').innerHTML=cab('alma','<p class="humo">Las estrellas y una carta del tarot dibujan a esa persona.</p>')+
+   '<form class="orac-form" id="oracForm">'+fechaCampo('fNac','Tu fecha de nacimiento')+
+   '<button class="boton" type="submit">Revelar mi alma gemela</button></form><div class="orac-res" id="oracRes" hidden></div>';
+  $('oracForm').addEventListener('submit',function(e){e.preventDefault();var f=leerFecha('fNac');if(!f)return;
+   var s=signoDeFecha(f.m,f.d),S=SIGNOS[s],ce=COMPL[S.e],op=(s+6)%12,cands=[];
+   for(var k=0;k<12;k++)if(SIGNOS[k].e===ce)cands.push(k);
+   var r=azar(semillaPersona()+'|alma|'+f.y+f.m+f.d),i=Math.floor(r()*22),C=MT.CARTAS[i],ag=AG[ce],n=nombreUsuario();
+   mostrarRes('<div class="impacto"><span class="eti">'+(n?esc(n)+', tu ':'Tu ')+'alma gemela</span><p class="grande">Es '+ag.como+'.</p></div>'+
+    '<h3>Tu signo: '+S.g+' '+S.n+' ('+ELEM[S.e]+')</h3><p>Tu corazón '+S.amor+'. Por eso la energía que te completa es la de <b>'+ELEM[ce].toLowerCase()+'</b>.</p>'+
+    '<h3>Los signos donde suele aparecer</h3><p>'+cands.map(function(k){return (k===op?'<b>':'')+SIGNOS[k].g+' '+SIGNOS[k].n+(k===op?' (tu complemento exacto)</b>':'')}).join(' · ')+'</p>'+
+    '<h3>Cómo la reconocerás</h3><p>Lo notarás porque '+ag.reconocer+'.</p>'+
+    '<h3>Dónde y cuándo</h3><p>Suele cruzarse '+ag.donde+'. Las temporadas en que esta energía se activa: '+cands.map(temporada).join('; ')+'.</p>'+
+    '<h3>La carta de vuestro encuentro</h3><div class="orac-fila">'+cartaHTML(i,C.n)+'<p>'+esc(C.amor)+'</p></div>'+
+    '<div class="semana"><b>Lo que la acerca</b><p>'+ACERCA[S.e]+'</p></div>')});
+ },
+ natal:function(){
+  var ops=CIUDADES.map(function(c,k){return '<option value="'+k+'"'+(c[0]==='Madrid'?' selected':'')+'>'+c[0]+'</option>'}).join('');
+  $('oracCuerpo').innerHTML=cab('natal','<p class="humo">Calculada con la posición real del Sol, la Luna y el horizonte en el momento en que naciste.</p>')+
+   '<form class="orac-form" id="oracForm">'+fechaCampo('fNac','Fecha de nacimiento')+
+   '<label class="campo"><span>Hora de nacimiento</span><input type="time" id="hNac"></label>'+
+   '<label class="acepto"><input type="checkbox" id="sinHora"> No sé mi hora (te muestro el Sol y la Luna, sin ascendente)</label>'+
+   '<label class="campo"><span>Lugar de nacimiento</span><select id="cNac">'+ops+'</select></label>'+
+   '<button class="boton" type="submit">Calcular mi carta natal</button></form><div class="orac-res" id="oracRes" hidden></div>';
+  $('oracForm').addEventListener('submit',function(e){e.preventDefault();var f=leerFecha('fNac');if(!f)return;
+   var sin=$('sinHora').checked||!$('hNac').value,ci=CIUDADES[+$('cNac').value],tz=ci[3]||'Europe/Madrid';
+   var hm=sin?[12,0]:$('hNac').value.split(':').map(Number);
+   var ms=localAUTC(f.y,f.m,f.d,hm[0],hm[1],tz),p=posiciones(ms,sin?null:ci[1],ci[2]);
+   var so=signoDeLongitud(p.sol),lu=signoDeLongitud(p.luna),as=p.asc==null?null:signoDeLongitud(p.asc);
+   var gr=function(l){var x=((l%30)+30)%30;return Math.floor(x)+'°'+String(Math.floor((x%1)*60)).padStart(2,'0')+'′'};
+   var n=nombreUsuario(),S=SIGNOS[so],L=SIGNOS[lu],A=as==null?null:SIGNOS[as];
+   var cambiaLuna=sin&&(signoDeLongitud(p.luna-6.6)!==lu||signoDeLongitud(p.luna+6.6)!==lu);
+   var tri='<div class="orac-tri"><div><span>☉ Sol</span><b>'+S.g+' '+S.n+'</b><small>'+gr(p.sol)+'</small></div><div><span>☽ Luna</span><b>'+L.g+' '+L.n+'</b><small>'+(sin?'aprox.':gr(p.luna))+'</small></div>'+
+     '<div><span>↑ Ascendente</span><b>'+(A?A.g+' '+A.n:'—')+'</b><small>'+(A?gr(p.asc):'falta la hora')+'</small></div></div>';
+   var elems={};[S,L].concat(A?[A]:[]).forEach(function(x){elems[x.e]=(elems[x.e]||0)+1});
+   var dom=Object.keys(elems).sort(function(a,b){return elems[b]-elems[a]})[0];
+   mostrarRes('<div class="impacto"><span class="eti">'+(n?esc(n)+', tu ':'Tu ')+'carta natal</span><p class="grande">Sol en '+S.n+', Luna en '+L.n+(A?' y ascendente '+A.n:'')+'.</p></div>'+tri+
+    '<h3>☉ Tu Sol en '+S.n+': quién eres</h3><p>'+S.sol+' Tu reto es '+S.sombra+'.</p>'+
+    '<h3>☽ Tu Luna en '+L.n+': lo que necesitas</h3><p>'+L.luna+'</p>'+(cambiaLuna?'<p class="humo">Ese día la Luna cambió de signo: con tu hora exacta podría ser '+SIGNOS[signoDeLongitud(p.luna+(signoDeLongitud(p.luna-6.6)!==lu?-6.6:6.6))].n+'.</p>':'')+
+    (A?'<h3>↑ Tu ascendente en '+A.n+': cómo te ven</h3><p>'+A.asc+'</p>':'<p class="humo">Si consigues tu hora de nacimiento (está en tu partida de nacimiento), vuelve a calcularla para ver tu ascendente.</p>')+
+    '<div class="semana"><b>Tu elemento dominante: '+ELEM[dom]+'</b><p>'+{fuego:'Te mueve la acción y el entusiasmo: necesitas metas que te enciendan.',tierra:'Te sostiene lo concreto: necesitas resultados que se puedan tocar.',aire:'Te mueven las ideas y la gente: necesitas conversación y movimiento.',agua:'Te guía lo que sientes: necesitas vínculos profundos y momentos de calma.'}[dom]+'</p></div>'+
+    '<p class="humo">Calculado para '+esc(ci[0])+(sin?'':' a las '+$('hNac').value)+', hora local.</p>')});
+  $('sinHora').addEventListener('change',function(){$('hNac').disabled=this.checked});
+ },
+ runas:function(){
+  $('oracCuerpo').innerHTML=cab('runas','<p class="humo">Piensa en tu pregunta y saca tres piedras de la bolsa.</p>')+
+   '<form class="orac-form" id="oracForm"><label class="campo"><span>Tu pregunta</span><textarea id="pRuna" required placeholder="¿Qué necesito saber sobre…?"></textarea></label>'+
+   '<button class="boton" type="submit">Sacar tres runas</button></form><div class="orac-res" id="oracRes" hidden></div>';
+  $('oracForm').addEventListener('submit',function(e){e.preventDefault();var q=$('pRuna').value.trim();if(!q)return;
+   var orden=barajar(24,Math.random),h='',inv=0;
+   for(var k=0;k<3;k++){var R_=RUNAS[orden[k]],rev=!!R_[4]&&Math.random()<.3;if(rev)inv++;
+     h+='<div class="orac-runa"><div class="piedra'+(rev?' rev':'')+'" aria-hidden="true">'+R_[1]+'</div><div><span class="eti">'+POS_RUNAS[k]+'</span>'+
+        '<b>'+R_[0]+' · '+R_[2]+(rev?' (invertida)':'')+'</b><p>'+(rev?R_[4]:R_[3])+'</p></div></div>'}
+   var cons=RUNAS[orden[2]];
+   mostrarRes('<div class="impacto"><span class="eti">Las runas responden</span><p class="pregunta">«'+esc(q)+'»</p><p class="grande">'+
+     (inv===0?'El camino está abierto.':inv===1?'Hay un nudo, pero se desata.':'Hoy toca ir con calma.')+' La clave es '+cons[2]+'.</p></div>'+h+
+     '<p class="humo">Las runas hablan del momento: si tu situación cambia, vuelve a consultarlas.</p>')});
+ },
+ compat:function(){
+  $('oracCuerpo').innerHTML=cab('compat','<p class="humo">Dos fechas de nacimiento, dos signos y lo que pasa cuando se juntan.</p>')+
+   '<form class="orac-form" id="oracForm">'+fechaCampo('fA','Tu fecha de nacimiento')+
+   '<label class="campo"><span>Nombre de la otra persona</span><input type="text" id="nB" maxlength="40" placeholder="Opcional"></label>'+fechaCampo('fB','Su fecha de nacimiento')+
+   '<button class="boton" type="submit">Ver nuestra compatibilidad</button></form><div class="orac-res" id="oracRes" hidden></div>';
+  $('oracForm').addEventListener('submit',function(e){e.preventDefault();var a=leerFecha('fA'),b=leerFecha('fB');if(!a||!b)return;
+   var sa=signoDeFecha(a.m,a.d),sb2=signoDeFecha(b.m,b.d),A=SIGNOS[sa],B=SIGNOS[sb2],dist=Math.min((sa-sb2+12)%12,(sb2-sa+12)%12),as=ASPECTO[dist];
+   var ajuste=(A.m===B.m&&dist!==0?-4:0)+((a.y+b.y+a.d+b.d)%5)-2,pct=Math.max(35,Math.min(97,as[1]+ajuste));
+   var otro=esc(($('nB').value||'').trim())||'esa persona',n=nombreUsuario();
+   mostrarRes('<div class="impacto"><span class="eti">'+(n?esc(n)+' y '+otro:'Tú y '+otro)+'</span><p class="grande">'+A.g+' '+A.n+' + '+B.g+' '+B.n+'</p>'+
+    '<div class="orac-medidor"><i style="width:'+pct+'%"></i></div><p class="orac-pct">'+pct+' % de afinidad · '+as[0]+'</p></div>'+
+    '<h3>Vuestros elementos</h3><p>'+parElem(A.e,B.e)+'</p>'+
+    '<h3>Lo que os une</h3><p>'+as[2]+'</p><h3>Dónde chocáis</h3><p>'+as[3]+' '+A.n+' '+A.amor+'; '+B.n+' '+B.amor+'.</p>'+
+    '<div class="semana"><b>Cómo cuidar el vínculo</b><p>'+as[4]+'</p></div>'+
+    '<p class="humo">La afinidad de los signos es un punto de partida: lo que hacéis cada día pesa más que las estrellas.</p>')});
+ }
+};
+
+// ---------- entradas: boton del encabezado, portales tras la lectura y ?oraculo= del link de entrega
+MT.abrirOraculo=function(k){abrirCapa();if(k&&INFO[k])abrir(k);else inicio()};
+document.addEventListener('mt-cuenta',function(){if(capa.hidden)return;if(actual)abrir(actual);else inicio()});
+var NOMBRE={'Alma gemela':'alma','Carta natal':'natal','Runas':'runas','Compatibilidad':'compat'};
+[].forEach.call(document.querySelectorAll('.multiverso .portal'),function(p){
+  var nuevo=p.cloneNode(true);p.parentNode.replaceChild(nuevo,p);nuevo.addEventListener('click',function(){MT.abrirOraculo(NOMBRE[nuevo.dataset.p])})});
+if($('notaPortal'))$('notaPortal').textContent='Con el Súper Pack Anual, uno es de regalo. Con La Llave, todos.';
+function pintarPortales(){[].forEach.call(document.querySelectorAll('.multiverso .portal'),function(p){var k=NOMBRE[p.dataset.p],em=p.querySelector('em');if(k&&em)em.outerHTML=sello(k)})}
+document.addEventListener('mt-cuenta',pintarPortales);pintarPortales();
+var b=document.createElement('button');b.className='entrar orac-btn';b.type='button';b.textContent='✦ Oráculos';b.addEventListener('click',function(){MT.abrirOraculo()});
+var cu=document.querySelector('.cuenta');if(cu)cu.insertBefore(b,cu.firstChild);
+var m=/[?&]oraculo=(\w+)/.exec(location.search);if(m)MT.abrirOraculo(m[1]);
+})();
+
 </script>
 
 </body></html>
