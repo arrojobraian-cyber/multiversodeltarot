@@ -421,6 +421,8 @@ var calmo=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)
 
 // ---- cuenta y saldo (Supabase). Sin sesion: 1 lectura gratis guardada en este navegador.
 var CFG={"supabaseUrl": "https://ysuwodjgcetzpdazqkmt.supabase.co", "supabaseKey": "sb_publishable_XYVSOn73AFzFF3S9lzOzoA_LsASclDz", "tienda": "https://www.multiversodeltarot.shop/", "checkout": {"suelta": "https://multiversodeltarot.impultienda.ar/o/lectura-suelta", "pase": "https://multiversodeltarot.impultienda.ar/o/pase-30-dias", "anual": "https://multiversodeltarot.impultienda.ar/o/super-pack-anual", "llave": "https://multiversodeltarot.impultienda.ar/o/la-llave-del-multiverso"}};
+try{!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','1790274578916243');fbq('track','PageView');}catch(e){}
+function px(ev,d){try{fbq('track',ev,d||{})}catch(e){}}
 var sb=window.supabase.createClient(CFG.supabaseUrl,CFG.supabaseKey);
 var sesion=null,cred=0,gratis=true,leadOk=false;
 function guardado(k,v){try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v)}catch(e){return null}}
@@ -455,7 +457,8 @@ $('formEntrar').addEventListener('submit',function(ev){ev.preventDefault();
 // compra: a la tienda, con el tema y las UTM con que llego
 var utm=location.search.replace(/^\?/,'');
 [].forEach.call(document.querySelectorAll('[data-compra]'),function(a){
-  var u=CFG.checkout[a.dataset.compra]||CFG.tienda;a.href=u+(utm?(u.indexOf('?')<0?'?':'&')+utm:'');a.target='_blank';a.rel='noopener'});
+  var u=CFG.checkout[a.dataset.compra]||CFG.tienda;a.href=u+(utm?(u.indexOf('?')<0?'?':'&')+utm:'');a.target='_blank';a.rel='noopener';
+  a.addEventListener('click',function(){px('InitiateCheckout',{content_name:a.dataset.compra})})});
 
 function grupo(id,clave){
   $(id).addEventListener('click',function(e){
@@ -613,7 +616,7 @@ function pedirMail(seguir){
     var m=$('mailLead').value.trim().toLowerCase();$('msgMail').textContent='';
     sb.from('leads').insert({email:m,tema:estado.tema,utm:utm?Object.fromEntries(new URLSearchParams(utm)):null}).then(function(r){
       if(r.error){$('msgMail').textContent='Revisa el email e inténtalo de nuevo.';return}
-      leadOk=true;guardado('tarot.lead',m);cerrar('capaMail');seguir()})};
+      leadOk=true;guardado('tarot.lead',m);px('Lead',{content_name:estado.tema});cerrar('capaMail');seguir()})};
 }
 function escapar(t){return t.replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
 

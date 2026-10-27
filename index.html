@@ -559,6 +559,10 @@ img,svg{-webkit-user-drag:none;user-drag:none}
     els.forEach(function(el){if(el.getBoundingClientRect().top>innerHeight*.9){el.classList.add('oculto');io.observe(el)}});
   }
 
+  // pixel de Meta (Multiverso del Tarot): visita, y inicio de pago al tocar un plan
+  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','1790274578916243');fbq('track','PageView');fbq('track','ViewContent',{content_name:'landing'});
+  [].forEach.call(document.querySelectorAll('[data-compra]'),function(x){x.addEventListener('click',function(){fbq('track','InitiateCheckout',{content_name:x.textContent.trim()})})});
+
   // las UTM del anuncio viajan al pago (Impultienda las devuelve en el aviso de la venta)
   var q=location.search.replace(/^\?/,'');
   if(q)[].forEach.call(document.querySelectorAll('[data-compra]'),function(x){x.href+=(x.href.indexOf('?')<0?'?':'&')+q});
