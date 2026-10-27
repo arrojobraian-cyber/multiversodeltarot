@@ -162,6 +162,9 @@ a.boton{display:inline-flex;justify-content:center;align-items:center;text-decor
 .caja input[type=email]{font:17px var(--texto);padding:14px;border-radius:12px;border:1px solid var(--linea);background:rgba(11,9,19,.8);color:var(--pergamino)}
 .acepto{display:flex;gap:10px;align-items:flex-start;text-align:left;font-size:13px;color:var(--humo)}
 .acepto input{margin-top:3px;accent-color:#d2ad5b}
+.extra{display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;padding:20px;border-radius:16px;border:1px solid var(--oro2);background:radial-gradient(120% 120% at 50% 0%,rgba(242,220,152,.16),rgba(11,9,19,.7))}
+.extra b{font:700 18px var(--display);color:var(--oro2)}.extra span{color:var(--humo)}
+.extra .precio{font:700 34px/1 var(--display);color:var(--pergamino)}.extra .precio small{display:block;font:italic 14px var(--texto);color:var(--humo);margin-top:4px}
 .demo{display:inline-block;font:700 10px var(--display);letter-spacing:.12em;color:var(--noche);background:#e7a9b4;border-radius:4px;padding:2px 7px;vertical-align:middle;font-style:normal}
 .sello-fondo{position:fixed;left:50%;top:50%;width:min(1100px,170vw);aspect-ratio:1;transform:translate(-50%,-50%);z-index:0;pointer-events:none;opacity:.13;color:var(--oro)}
 .sello-fondo svg{width:100%;height:100%;animation:girar 240s linear infinite}
@@ -300,11 +303,11 @@ a.boton{display:inline-flex;justify-content:center;align-items:center;text-decor
     <!-- 4. planes -->
     <section class="panel" id="paso4" hidden>
       <div class="cabeza"><h2 id="tituloPlanes">Sigue consultando a las cartas</h2><div class="adorno" aria-hidden="true">☽</div>
-        <p class="humo">Elige cómo seguir. Sin suscripciones ni cobros sorpresa: pagas una vez y listo.</p><p class="ya-compre">¿Ya compraste? <button class="link" type="button" id="yaCompre">Entra con tu email</button></p></div>
+        <p class="humo">Elige cómo seguir. Sin suscripciones ni cobros sorpresa: pagas una vez y listo.</p><p class="ya-compre">¿Ya compraste? <button class="link" type="button" id="yaCompre">Entra con tu email</button></p><div class="extra" id="bloqueExtra" hidden><b>Tienes un plan activo</b><span>Tus lecturas extra, a precio de cliente</span><div class="precio">€3,99<small><s>€14,99</s> una lectura</small></div><a class="boton" data-compra="extra" href="#">Quiero una lectura extra</a></div></div>
       <p class="nota">Garantía de 7 días: si no es para ti, te devolvemos el dinero.</p>
       <div class="planes planes3">
         <div class="plan"><b>Lectura suelta</b>
-          <div class="precio">€3,99<small>una lectura</small></div>
+          <div class="precio">€14,99<small>una lectura, sin plan</small></div>
           <ul><li>1 lectura completa</li><li>Para una pregunta puntual</li></ul>
           <a class="boton sec" data-compra="suelta" href="#">Comprar 1 lectura</a></div>
         <div class="plan"><b>Pase 30 días</b>
@@ -420,7 +423,7 @@ var calmo=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)
 })();
 
 // ---- cuenta y saldo (Supabase). Sin sesion: 1 lectura gratis guardada en este navegador.
-var CFG={"supabaseUrl": "https://ysuwodjgcetzpdazqkmt.supabase.co", "supabaseKey": "sb_publishable_XYVSOn73AFzFF3S9lzOzoA_LsASclDz", "tienda": "https://www.multiversodeltarot.shop/", "checkout": {"suelta": "https://multiversodeltarot.impultienda.ar/o/lectura-suelta", "pase": "https://multiversodeltarot.impultienda.ar/o/pase-30-dias", "anual": "https://multiversodeltarot.impultienda.ar/o/super-pack-anual", "llave": "https://multiversodeltarot.impultienda.ar/o/la-llave-del-multiverso"}};
+var CFG={"supabaseUrl": "https://ysuwodjgcetzpdazqkmt.supabase.co", "supabaseKey": "sb_publishable_XYVSOn73AFzFF3S9lzOzoA_LsASclDz", "tienda": "https://www.multiversodeltarot.shop/", "checkout": {"suelta": "https://multiversodeltarot.impultienda.ar/o/lectura-suelta", "pase": "https://multiversodeltarot.impultienda.ar/o/pase-30-dias", "anual": "https://multiversodeltarot.impultienda.ar/o/super-pack-anual", "llave": "https://multiversodeltarot.impultienda.ar/o/la-llave-del-multiverso", "extra": "https://multiversodeltarot.impultienda.ar/o/lectura-extra-con-plan"}};
 try{!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','1790274578916243');fbq('track','PageView');}catch(e){}
 function px(ev,d){try{fbq('track',ev,d||{})}catch(e){}}
 var sb=window.supabase.createClient(CFG.supabaseUrl,CFG.supabaseKey);
@@ -434,7 +437,10 @@ function pintarCred(){
 function leerSaldo(){
   if(!sesion){pintarCred();return Promise.resolve()}
   return sb.from('cuentas').select('creditos,creditos_plan,plan_hasta').maybeSingle().then(function(r){
-    var c=r.data;cred=c?c.creditos+((c.plan_hasta&&new Date(c.plan_hasta)>new Date())?c.creditos_plan:0):0;pintarCred()})
+    var c=r.data,vigente=!!(c&&c.plan_hasta&&new Date(c.plan_hasta)>new Date());
+    cred=c?c.creditos+(vigente?c.creditos_plan:0):0;
+    // la lectura a 3,99 es solo para quien tiene un plan vigente; el resto ve la suelta a 9,99
+    $('bloqueExtra').hidden=!vigente;pintarCred()})
 }
 function puedeLeer(){return sesion?cred>0:gratis}
 // descuenta la lectura del lado del servidor; con la gratis, la marca en este navegador
