@@ -1,0 +1,25 @@
+# Mantiene despierta la base: Supabase gratis pausa el proyecto tras 7 dias sin consultas,
+# y GitHub apaga los cron de un repo sin actividad en 60 dias (por eso deja un latido commiteado).
+name: despierto
+on:
+  schedule:
+    - cron: "17 9 */3 * *"
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  latido:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Consulta a la base
+        run: |
+          code=$(curl -s -o /dev/null -w "%{http_code}" \
+            "https://ysuwodjgcetzpdazqkmt.supabase.co/rest/v1/leads?select=tema&limit=1" \
+            -H "apikey: sb_publishable_XYVSOn73AFzFF3S9lzOzoA_LsASclDz")
+          echo "respuesta $code"; test "$code" = "200"
+      - name: Latido
+        run: |
+          date -u +%F > .latido
+          git config user.name "latido"; git config user.email "latido@users.noreply.github.com"
+          git add .latido; git diff --cached --quiet || git commit -m "latido"; git push
