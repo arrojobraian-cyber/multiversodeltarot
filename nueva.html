@@ -126,6 +126,8 @@ h1 span{display:block;color:var(--pergamino);font-size:.62em;letter-spacing:.02e
 .dolor::before{content:attr(data-n);position:absolute;right:12px;top:6px;font:700 40px var(--display);color:rgba(210,173,91,.13)}
 .dolor q{display:block;font:italic 600 21px/1.3 var(--texto);color:var(--pergamino);quotes:"«" "»"}
 .dolor .sal{margin-top:12px;padding:10px 12px;border-radius:10px;background:rgba(210,173,91,.1);border-left:2px solid var(--oro);color:var(--oro2);font-size:15.5px}
+.dolores.solo .dolor:not(.marcado):not([data-t=todos]){display:none}
+.dolores.solo .dolor::before{content:none}
 .dolor.marcado{box-shadow:inset 0 0 0 1.5px var(--oro2),0 0 30px rgba(242,220,152,.15)}
 .contraste{display:grid;gap:14px;margin-top:34px}
 @media(min-width:700px){.contraste{grid-template-columns:1fr 1fr}}
@@ -545,7 +547,7 @@ img,svg{-webkit-user-drag:none;user-drag:none}
   }
   [].forEach.call(document.querySelectorAll('.tema'),function(b){b.addEventListener('click',function(){elegirTema(b.dataset.t)})});
   // el anuncio de cada angulo llega con ?tema=futuro|pareja|duelo|decision|familia y ve su primera pantalla
-  var m=/[?&]tema=(futuro|pareja|duelo|decision|familia)/.exec(location.search); if(m) elegirTema(m[1]);
+  var m=/[?&]tema=(futuro|pareja|duelo|decision|familia)/.exec(location.search); if(m){ elegirTema(m[1]); document.querySelector('.dolores').classList.add('solo'); }
 
   // guia fija de la tirada
   var guia=document.getElementById('guia'),links=[].slice.call(guia.querySelectorAll('a')),secs=['carta1','carta2','carta3'].map(function(id){return document.getElementById(id)});
