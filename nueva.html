@@ -1,0 +1,583 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex">
+<meta name="description" content="Tu lectura de tarot en 3 minutos, en privado y sin llamar a nadie. La primera, gratis.">
+<title>Multiverso del Tarot</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@600;700&family=Spectral:ital,wght@0,400;0,600;1,400&display=swap">
+<style>
+/* ESTRUCTURA "TIRADA DE TRES CARTAS": la pagina es una lectura.
+   Portada = la mesa de Madame Velo (eliges tema y das vuelta una carta) ->
+   Carta I lo que te trajo (dolores con su salida) -> Carta II como funciona (la app en un celular + comparativa 806) ->
+   Carta III lo que se abre (oraculos + planes como cartas, La Llave = XXI) -> garantia, preguntas, cierre.
+   Paleta de la version anterior (aprobada por Braian). Ningun boton de compra arriba de la Carta III. */
+:root{
+  --noche:#0b0811; --velo:#1a1226; --vino:#9a2f45; --oro:#d2ad5b; --oro2:#f2dc98; --pergamino:#f3e7c9; --humo:#b9aecb; --linea:rgba(210,173,91,.3);
+  --display:"Cinzel Decorative",Georgia,serif; --titulo:"Cinzel",Georgia,serif; --texto:"Spectral",Georgia,"Times New Roman",serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--noche);color:var(--pergamino);font:17px/1.65 var(--texto);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{max-width:100%}
+p{margin:0}
+h1,h2,h3{font-family:var(--titulo);font-weight:700;color:var(--oro2);margin:0;line-height:1.1;text-wrap:balance}
+.humo{color:var(--humo)}
+.oro{color:var(--oro2)}
+.wrap{max-width:760px;margin:0 auto;padding-left:max(18px,env(safe-area-inset-left,0px));padding-right:max(18px,env(safe-area-inset-right,0px))}
+section{padding-block:64px;position:relative}
+:focus-visible{outline:2px solid var(--oro2);outline-offset:3px;border-radius:6px}
+.cielo{position:fixed;inset:0;pointer-events:none;z-index:0;background:
+  radial-gradient(1px 1px at 12% 20%,rgba(242,220,152,.5),transparent),radial-gradient(1px 1px at 78% 12%,rgba(242,220,152,.4),transparent),
+  radial-gradient(1.5px 1.5px at 40% 60%,rgba(242,220,152,.35),transparent),radial-gradient(1px 1px at 88% 70%,rgba(242,220,152,.45),transparent),
+  radial-gradient(1px 1px at 22% 85%,rgba(242,220,152,.35),transparent),radial-gradient(60% 40% at 50% 0%,rgba(154,47,69,.14),transparent 70%)}
+main{position:relative;z-index:1}
+
+/* botones */
+.btn{display:inline-flex;justify-content:center;align-items:center;gap:10px;min-height:58px;padding:16px 28px;border-radius:40px;border:0;cursor:pointer;
+  font:700 15px/1.2 var(--titulo);letter-spacing:.08em;text-transform:uppercase;color:var(--noche);text-decoration:none;text-align:center;
+  background:linear-gradient(180deg,var(--oro2),var(--oro) 55%,#8a6d2c);box-shadow:0 10px 30px rgba(0,0,0,.5),0 0 26px rgba(242,220,152,.3);
+  position:relative;overflow:hidden;animation:respira 3.2s ease-in-out infinite;width:min(100%,420px)}
+.btn::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.45) 50%,transparent 70%);transform:translateX(-120%);animation:brillo 4.5s ease-in-out infinite}
+.btn.sec{background:transparent;color:var(--oro2);box-shadow:inset 0 0 0 1px var(--oro);animation:none}
+.btn.sec::after{display:none}
+@keyframes respira{0%,100%{transform:scale(1)}50%{transform:scale(1.015)}}
+@keyframes brillo{0%,60%{transform:translateX(-120%)}80%,100%{transform:translateX(120%)}}
+
+/* encabezado de cada carta de la tirada */
+.arcano{display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px;margin-bottom:34px}
+.arcano .num{width:58px;height:92px;border-radius:7px;display:grid;place-items:center;font:700 24px var(--display);color:var(--oro2);
+  background:linear-gradient(180deg,#2a1d4d,#0b0811);box-shadow:inset 0 0 0 1px var(--oro),0 0 24px rgba(242,220,152,.18)}
+.arcano .eti{font:700 12px var(--titulo);letter-spacing:.3em;color:var(--oro);text-transform:uppercase}
+.arcano h2{font-size:clamp(28px,7vw,42px)}
+.arcano p{color:var(--humo);max-width:36ch}
+
+/* guia fija de la tirada */
+.guia{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;justify-content:center;gap:18px;padding:8px 12px calc(8px);padding-top:max(8px,env(safe-area-inset-top,0px));
+  background:rgba(11,8,17,.82);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid var(--linea);
+  font:700 11px var(--titulo);letter-spacing:.18em;color:var(--humo);transform:translateY(-110%);transition:transform .4s}
+.guia.ver{transform:none}
+.guia a{color:inherit;text-decoration:none;display:flex;align-items:center;gap:6px;opacity:.55;transition:opacity .3s,color .3s}
+.guia a i{font-style:normal;display:grid;place-items:center;width:20px;height:30px;border-radius:3px;box-shadow:inset 0 0 0 1px currentColor;font-size:10px}
+.guia a.on{opacity:1;color:var(--oro2)}
+
+/* ---------- PORTADA: la mesa ---------- */
+.portada{padding:0 0 40px}
+.mesa{position:relative;max-width:560px;margin:0 auto;aspect-ratio:720/893;overflow:hidden}
+.mesa>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;animation:acerca 24s ease-in-out infinite alternate}
+@keyframes acerca{from{transform:scale(1)}to{transform:scale(1.05)}}
+.mesa::before{content:"";position:absolute;inset:0;z-index:1;background:
+  radial-gradient(14% 13% at 50% 25%,rgba(6,3,10,.9),rgba(6,3,10,.5) 60%,transparent),
+  linear-gradient(180deg,rgba(11,8,17,.55),transparent 22%,transparent 62%,rgba(11,8,17,.35) 80%,var(--noche))}
+.marca{position:absolute;z-index:3;top:max(14px,env(safe-area-inset-top,0px));left:0;right:0;text-align:center}
+.marca b{display:block;font:700 15px var(--display);letter-spacing:.06em;color:var(--oro2);text-shadow:0 2px 12px #000}
+.marca small{font:italic 13px var(--texto);color:var(--humo)}
+.llamas{position:absolute;z-index:2;inset:0;pointer-events:none;background:
+  radial-gradient(9% 7% at 4% 64%,rgba(255,207,122,.35),transparent),radial-gradient(9% 7% at 8% 70%,rgba(255,207,122,.3),transparent),
+  radial-gradient(9% 7% at 96% 63%,rgba(255,207,122,.35),transparent),radial-gradient(9% 7% at 91% 69%,rgba(255,207,122,.3),transparent);
+  animation:titila 2.6s ease-in-out infinite alternate}
+@keyframes titila{0%{opacity:.6}40%{opacity:1}70%{opacity:.75}100%{opacity:.95}}
+/* las tres cartas sobre el mantel */
+.tres{position:absolute;z-index:4;left:0;right:0;bottom:6%;display:flex;justify-content:center;gap:4%;perspective:900px}
+.dorso{width:21%;max-width:104px;aspect-ratio:96/160;border:0;padding:0;background:none;cursor:pointer;position:relative;transform-style:preserve-3d;
+  transition:transform .8s cubic-bezier(.2,.7,.2,1),filter .3s;filter:drop-shadow(0 12px 14px rgba(0,0,0,.7))}
+.dorso:nth-child(1){transform:rotate(-7deg) translateY(6px)}.dorso:nth-child(3){transform:rotate(7deg) translateY(6px)}
+.dorso .lado{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.dorso .lado svg{width:100%;height:100%;display:block}
+.dorso .cara{transform:rotateY(180deg)}
+.dorso.vuelta{transform:rotateY(180deg) translateY(-8px) scale(1.12);filter:drop-shadow(0 0 22px rgba(242,220,152,.55))}
+.tres.listo .dorso:not(.vuelta){opacity:.35;pointer-events:none}
+.tres:not(.listo) .dorso:hover{filter:drop-shadow(0 0 16px rgba(242,220,152,.7)) brightness(1.1)}
+.tres.espera .dorso{animation:llama 2.4s ease-in-out infinite}
+.tres.espera .dorso:nth-child(2){animation-delay:.3s}.tres.espera .dorso:nth-child(3){animation-delay:.6s}
+@keyframes llama{0%,100%{filter:drop-shadow(0 12px 14px rgba(0,0,0,.7))}50%{filter:drop-shadow(0 0 14px rgba(242,220,152,.6))}}
+
+.texto-portada{position:relative;z-index:5;margin-top:-6px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:14px}
+.ceja{font:700 12px var(--titulo);letter-spacing:.22em;text-transform:uppercase;color:var(--oro)}
+h1{font-size:clamp(32px,8.6vw,52px);text-shadow:0 0 30px rgba(242,220,152,.25)}
+h1 span{display:block;color:var(--pergamino);font-size:.62em;letter-spacing:.02em;margin-top:6px}
+.bajada{color:var(--humo);max-width:34ch}
+.bajada b{color:var(--pergamino);font-weight:600}
+.temas{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;max-width:520px}
+.tema{border:0;cursor:pointer;padding:10px 16px;border-radius:30px;font:600 15px var(--texto);color:var(--pergamino);background:rgba(26,18,38,.85);box-shadow:inset 0 0 0 1px var(--linea);transition:box-shadow .2s,background .2s}
+.tema[aria-pressed="true"]{background:linear-gradient(180deg,rgba(154,47,69,.6),rgba(26,18,38,.9));box-shadow:inset 0 0 0 1px var(--oro2);color:var(--oro2)}
+.instruccion{font:italic 16px var(--texto);color:var(--oro2);min-height:1.6em}
+.revelado{width:100%;max-width:480px;text-align:left;border-radius:16px;padding:20px;background:radial-gradient(120% 100% at 50% 0%,rgba(210,173,91,.14),rgba(26,18,38,.85));box-shadow:inset 0 0 0 1px var(--oro);animation:sube .6s backwards}
+@keyframes sube{from{opacity:.01;transform:translateY(16px)}to{opacity:1;transform:none}}
+.revelado .nombre{font:700 13px var(--titulo);letter-spacing:.2em;color:var(--oro);text-transform:uppercase}
+.revelado p{margin-top:6px}
+.revelado .corte{position:relative;color:var(--humo);margin-top:10px}
+.revelado .corte::after{content:"";position:absolute;left:0;right:0;bottom:0;height:75%;background:linear-gradient(180deg,transparent,#1a1226)}
+.revelado .btn{width:100%;margin-top:16px}
+.revelado small{display:block;text-align:center;color:var(--humo);font-size:13px;margin-top:10px}
+.precio-visible{font-size:15px;color:var(--humo)}
+.precio-visible b{color:var(--oro2)}
+.precio-visible a{color:var(--oro2);text-underline-offset:3px}
+.bajar{font:600 13px var(--titulo);letter-spacing:.14em;color:var(--humo);text-decoration:none;text-transform:uppercase;display:flex;flex-direction:column;align-items:center;gap:6px}
+.bajar::after{content:"";width:12px;height:12px;border-right:1.5px solid var(--oro);border-bottom:1.5px solid var(--oro);transform:rotate(45deg);animation:baja 2.2s ease-in-out infinite}
+@keyframes baja{0%,100%{translate:0 0;opacity:.35}50%{translate:0 6px;opacity:1}}
+
+/* ---------- CARTA I: dolores ---------- */
+.dolores{display:grid;gap:14px}
+@media(min-width:700px){.dolores{grid-template-columns:1fr 1fr}}
+.dolor{border-radius:16px;padding:20px 18px 18px;background:linear-gradient(180deg,rgba(26,18,38,.95),rgba(11,8,17,.9));box-shadow:inset 0 0 0 1px var(--linea);position:relative;overflow:hidden}
+.dolor::before{content:attr(data-n);position:absolute;right:12px;top:6px;font:700 40px var(--display);color:rgba(210,173,91,.13)}
+.dolor q{display:block;font:italic 600 21px/1.3 var(--texto);color:var(--pergamino);quotes:"«" "»"}
+.dolor .sal{margin-top:12px;padding:10px 12px;border-radius:10px;background:rgba(210,173,91,.1);border-left:2px solid var(--oro);color:var(--oro2);font-size:15.5px}
+.dolor.marcado{box-shadow:inset 0 0 0 1.5px var(--oro2),0 0 30px rgba(242,220,152,.15)}
+.contraste{display:grid;gap:14px;margin-top:34px}
+@media(min-width:700px){.contraste{grid-template-columns:1fr 1fr}}
+.lado-c{border-radius:16px;padding:20px}
+.lado-c h3{font-size:17px;margin-bottom:10px}
+.lado-c ul{margin:0;padding:0;list-style:none;display:grid;gap:8px;font-size:16px}
+.mal{background:rgba(154,47,69,.12);box-shadow:inset 0 0 0 1px rgba(154,47,69,.5)}
+.mal h3{color:#e3a0ad}.mal li::before{content:"✕  ";color:#e3a0ad}
+.bien{background:rgba(210,173,91,.1);box-shadow:inset 0 0 0 1px var(--oro)}
+.bien li::before{content:"✦  ";color:var(--oro)}
+
+/* ---------- CARTA II: como funciona ---------- */
+.funciona{display:grid;gap:36px;align-items:center}
+@media(min-width:760px){.funciona{grid-template-columns:1fr 1fr}}
+.pasos{list-style:none;margin:0;padding:0;display:grid;gap:4px}
+.pasos li{display:grid;grid-template-columns:46px 1fr;gap:14px;padding:16px 0;border-top:1px solid var(--linea)}
+.pasos li:last-child{border-bottom:1px solid var(--linea)}
+.pasos b{font:700 22px var(--display);color:var(--oro)}
+.pasos h3{font-size:17px}
+.pasos p{color:var(--humo);font-size:15.5px}
+/* el celular con la app */
+.cel{width:min(290px,78vw);margin:0 auto;aspect-ratio:9/18.5;border-radius:38px;padding:11px;background:linear-gradient(160deg,#3a2f45,#120c1a);
+  box-shadow:0 0 0 1px rgba(242,220,152,.25),0 40px 70px -20px rgba(0,0,0,.9),0 0 60px rgba(154,47,69,.25);position:relative;animation:flota 6s ease-in-out infinite}
+@keyframes flota{0%,100%{translate:0 0}50%{translate:0 -8px}}
+.cel::before{content:"";position:absolute;top:18px;left:50%;width:76px;height:20px;margin-left:-38px;border-radius:12px;background:#000;z-index:2}
+.pantalla{height:100%;border-radius:28px;overflow:hidden;background:radial-gradient(120% 60% at 50% 0%,#2a1d4d,#0b0811 70%);padding:44px 14px 14px;display:flex;flex-direction:column;gap:10px;font-size:12px}
+.pantalla .app-top{text-align:center}
+.pantalla .app-top b{font:700 11px var(--display);color:var(--oro2)}
+.pantalla .preg{border-radius:10px;padding:8px 10px;background:rgba(242,220,152,.08);box-shadow:inset 0 0 0 1px var(--linea);color:var(--pergamino);font-style:italic}
+.pantalla .mini{display:flex;justify-content:center;gap:8px}
+.pantalla .mini span{width:28%;aspect-ratio:96/160}
+.pantalla .mini span svg{width:100%;height:100%;display:block}
+.pantalla .mini span:nth-child(3){filter:blur(2.5px);opacity:.6}
+.pantalla .lect{color:var(--humo);line-height:1.5;position:relative}
+.pantalla .lect b{color:var(--oro2)}
+.pantalla .lect::after{content:"";position:absolute;left:0;right:0;bottom:0;height:55%;background:linear-gradient(180deg,transparent,#0b0811)}
+.pantalla .app-btn{margin-top:auto;text-align:center;border-radius:20px;padding:9px;font:700 10px var(--titulo);letter-spacing:.1em;color:var(--noche);background:linear-gradient(180deg,var(--oro2),var(--oro))}
+.pie-cel{text-align:center;font-size:14px;color:var(--humo);margin-top:14px;font-style:italic}
+/* comparativa */
+.tabla{display:grid;grid-template-columns:1fr 1fr;border-radius:18px;overflow:hidden;font-size:15px;margin-top:44px}
+.tabla .col{display:grid;align-content:start;min-width:0}
+.tabla .cab{padding:16px 14px 12px;font:700 12px var(--titulo);letter-spacing:.14em;text-transform:uppercase}
+.tabla .f{padding:12px 14px;border-top:1px solid var(--linea);min-height:66px;display:flex;gap:8px;align-items:flex-start}
+.tabla .no{color:var(--humo)}.tabla .no .cab{color:var(--humo)}
+.tabla .no .f::before{content:"✕";color:#c26a7b;font-size:13px;margin-top:2px}
+.tabla .si{background:linear-gradient(180deg,rgba(154,47,69,.28),rgba(26,18,38,.9));box-shadow:inset 0 0 0 1px var(--oro);border-radius:18px}
+.tabla .si .cab{color:var(--oro2)}
+.tabla .si .f::before{content:"✦";color:var(--oro2);font-size:13px;margin-top:2px}
+.nota{font-style:italic;font-size:13.5px;color:var(--humo);margin-top:10px}
+.remate{font:700 clamp(22px,5vw,30px)/1.2 var(--titulo);text-align:center;margin-top:36px;color:var(--pergamino)}
+
+/* ---------- CARTA III: oraculos y planes ---------- */
+.portales{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media(min-width:700px){.portales{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.portal{display:flex;flex-direction:column;align-items:center;gap:6px;padding:18px 10px;border-radius:14px;text-align:center;
+  background:radial-gradient(100% 80% at 50% 0%,rgba(154,47,69,.3),rgba(11,8,17,.7));box-shadow:inset 0 0 0 1px var(--linea)}
+.portal .ico{display:grid;place-items:center;width:50px;height:50px;border-radius:50%;box-shadow:inset 0 0 0 1px var(--oro),0 0 18px rgba(242,220,152,.2);color:var(--oro2);font-size:22px;animation:gira 14s linear infinite}
+@keyframes gira{0%{box-shadow:inset 0 0 0 1px var(--oro),0 0 10px rgba(242,220,152,.15)}50%{box-shadow:inset 0 0 0 1px var(--oro2),0 0 24px rgba(242,220,152,.35)}100%{box-shadow:inset 0 0 0 1px var(--oro),0 0 10px rgba(242,220,152,.15)}}
+.portal b{font:700 14px var(--titulo);color:var(--oro2)}
+.portal span{font-size:14px;color:var(--humo);line-height:1.35}
+.portal em{font-style:normal;font-size:14px;color:var(--oro)}
+.subt{text-align:center;font:700 clamp(24px,6vw,34px)/1.15 var(--titulo);color:var(--oro2);margin:64px 0 8px}
+.subt+p{text-align:center;color:var(--humo);margin-bottom:28px}
+/* planes con forma de carta */
+.planes{display:grid;gap:16px;align-items:stretch}
+@media(min-width:760px){.planes{grid-template-columns:1fr 1fr 1.12fr;align-items:center}}
+.plan{position:relative;border-radius:18px;padding:22px 18px 20px;text-align:center;display:flex;flex-direction:column;gap:10px;
+  background:linear-gradient(180deg,#1f1630,#0e0a16);box-shadow:inset 0 0 0 1px var(--linea),inset 0 0 0 6px rgba(11,8,17,.6),inset 0 0 0 7px rgba(210,173,91,.18)}
+.plan .rom{font:700 14px var(--display);color:var(--oro)}
+.plan h3{font-size:19px}
+.plan .pr{font:700 40px/1 var(--titulo);color:var(--pergamino)}
+.plan .pr small{display:block;font:italic 15px var(--texto);color:var(--humo);margin-top:6px}
+.plan ul{margin:4px 0;padding:0;list-style:none;display:grid;gap:6px;font-size:15.5px;color:var(--humo);text-align:left}
+.plan li::before{content:"✦  ";color:var(--oro)}
+.plan li b{color:var(--pergamino);font-weight:600}
+.plan .btn{margin-top:auto;width:100%;font-size:13px;min-height:52px;padding:12px}
+.plan.dest{padding-block:30px 24px;background:radial-gradient(120% 70% at 50% 0%,rgba(210,173,91,.22),transparent 60%),linear-gradient(180deg,#2a1d3e,#120c1c);
+  box-shadow:inset 0 0 0 1.5px var(--oro2),inset 0 0 0 7px rgba(11,8,17,.5),inset 0 0 0 8px rgba(242,220,152,.3),0 0 50px rgba(242,220,152,.18);overflow:hidden}
+.plan.dest::before{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 35%,rgba(242,220,152,.12) 50%,transparent 65%);transform:translateX(-100%);animation:brillo 6s ease-in-out infinite;pointer-events:none}
+.plan.dest .pr{font-size:50px}
+.cinta{position:absolute;top:0;left:50%;transform:translate(-50%,-50%);white-space:nowrap;font:700 11px var(--titulo);letter-spacing:.14em;color:var(--noche);background:var(--oro2);padding:5px 12px;border-radius:20px}
+.plan.dest .cinta{top:14px;transform:translateX(-50%)}
+.plan.dest .rom{margin-top:16px}
+.ant{color:var(--humo);font-size:15px}
+.ant s{color:#c26a7b}
+.bonus{text-align:left;border-top:1px solid var(--linea);padding-top:12px;display:grid;gap:8px;font-size:15px}
+.bonus div{display:flex;justify-content:space-between;gap:10px}
+.bonus span{color:var(--pergamino)}
+.bonus em{font-style:normal;color:var(--oro);white-space:nowrap}
+.bonus .tag{font:700 10px var(--titulo);letter-spacing:.2em;color:var(--oro);text-transform:uppercase}
+/* La Llave = carta XXI */
+.llave{margin-top:26px;border-radius:22px;padding:28px 20px 24px;text-align:center;position:relative;overflow:hidden;
+  background:radial-gradient(120% 120% at 50% 0%,rgba(242,220,152,.2),rgba(154,47,69,.22) 55%,rgba(11,8,17,.9));
+  box-shadow:inset 0 0 0 1.5px var(--oro2),inset 0 0 0 8px rgba(11,8,17,.45),inset 0 0 0 9px rgba(242,220,152,.35),0 0 60px rgba(242,220,152,.22)}
+.llave::before{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 35%,rgba(242,220,152,.14) 50%,transparent 65%);transform:translateX(-100%);animation:brillo 5s ease-in-out infinite;pointer-events:none}
+.llave .xxi{font:700 15px var(--display);color:var(--oro)}
+.llave h3{font:700 clamp(24px,6vw,32px) var(--display);margin:6px 0 4px}
+.llave .sub{color:var(--humo);font-style:italic}
+.llave ul{margin:16px auto;padding:0;list-style:none;display:grid;gap:8px;max-width:400px;text-align:left}
+.llave li::before{content:"✦  ";color:var(--oro2)}
+.llave .pr{font:700 52px/1 var(--titulo);color:var(--pergamino)}
+.llave .pr small{display:block;font:italic 15px var(--texto);color:var(--humo);margin-top:6px}
+.llave .btn{margin-top:18px}
+.seguro{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 18px;margin-top:18px;font-size:13.5px;color:var(--humo)}
+.seguro span::before{content:"✦ ";color:var(--oro)}
+
+/* garantia, para quien, preguntas, cierre */
+.garantia{display:flex;gap:18px;align-items:center;max-width:560px;margin:40px auto 0;border-radius:18px;padding:20px;box-shadow:inset 0 0 0 1px var(--oro);background:rgba(26,18,38,.7)}
+.sello{flex:none;width:84px;height:84px;border-radius:50%;display:grid;place-items:center;text-align:center;font:700 30px/1 var(--display);color:var(--oro2);
+  box-shadow:inset 0 0 0 2px var(--oro),inset 0 0 0 6px rgba(11,8,17,.6),inset 0 0 0 7px rgba(210,173,91,.4)}
+.sello small{display:block;font:700 9px var(--titulo);letter-spacing:.18em;margin-top:2px}
+.garantia p{font-size:16px;color:var(--humo)}
+.garantia b{color:var(--oro2)}
+.quien{display:grid;gap:26px}
+@media(min-width:700px){.quien{grid-template-columns:1fr 1fr}}
+.quien h3{font-size:20px;margin-bottom:12px}
+.quien ul{margin:0;padding:0;list-style:none;display:grid;gap:10px}
+.quien li{display:grid;grid-template-columns:22px 1fr}
+.quien .si li::before{content:"✦";color:var(--oro)}
+.quien .no li{color:var(--humo)}.quien .no li::before{content:"—";color:var(--humo)}
+.faq details{border-bottom:1px solid var(--linea);padding:16px 2px}
+.faq summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:14px;font-weight:600;color:var(--oro2)}
+.faq summary::after{content:"+";color:var(--oro);font-size:22px;line-height:1;transition:transform .25s}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq details p{margin-top:8px;color:var(--humo);font-size:16px}
+.cierre{text-align:center;padding-block:80px 50px}
+.cierre h2{font:700 clamp(30px,8vw,50px)/1.1 var(--display)}
+.cierre p{color:var(--humo);max-width:34ch;margin:16px auto 26px}
+.legal{font-size:13px;color:var(--humo);opacity:.8;text-align:center;max-width:56ch;margin:30px auto 0}
+
+/* aparicion al bajar */
+.rv{transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1)}
+.rv.oculto{opacity:.01;transform:translateY(22px)}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+/* blindaje anti-copia */
+body{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+img,svg{-webkit-user-drag:none;user-drag:none}
+</style>
+<!-- Microsoft Clarity -->
+<script type="text/javascript">(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","z5n9l96rvk");</script>
+</head><body>
+
+<div class="cielo" aria-hidden="true"></div>
+<nav class="guia" id="guia" aria-label="La tirada">
+  <a href="#carta1"><i>I</i>Tu pregunta</a><a href="#carta2"><i>II</i>Planes</a><a href="#carta3"><i>III</i>La app</a>
+</nav>
+<main>
+
+<!-- PORTADA: la mesa de Madame Velo. Eliges tema, das vuelta una carta, ves el comienzo de tu lectura (sin boton de compra) -->
+<header class="portada">
+  <div class="mesa">
+    <img src="data:image/webp;base64,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" alt="Madame Velo, la tarotista velada, con las manos sobre la mesa de tarot" width="720" height="893" fetchpriority="high">
+    <div class="llamas" aria-hidden="true"></div>
+    <div class="marca"><b>Multiverso del Tarot</b><small>La biblia del tarot, en tu bolsillo</small></div>
+    <div class="tres espera" id="tres" role="group" aria-label="Tres cartas boca abajo">
+      <button class="dorso" type="button" aria-label="Dar vuelta la primera carta"></button>
+      <button class="dorso" type="button" aria-label="Dar vuelta la segunda carta"></button>
+      <button class="dorso" type="button" aria-label="Dar vuelta la tercera carta"></button>
+    </div>
+  </div>
+  <div class="wrap texto-portada">
+    <p class="ceja" id="ceja">Madame Velo te espera</p>
+    <h1>Tu lectura de tarot en 3 minutos<span>En privado, sin llamar a nadie, a cualquier hora</span></h1>
+    <p class="bajada" id="bajada">Elige qué te trae a la mesa y da la vuelta a una carta. <b>La primera lectura es gratis.</b></p>
+    <div class="temas" role="group" aria-label="Qué te trae">
+      <button class="tema" type="button" data-t="futuro" aria-pressed="false">🔮 Qué me depara el futuro</button>
+      <button class="tema" type="button" data-t="pareja" aria-pressed="false">💔 Mi pareja se fue</button>
+      <button class="tema" type="button" data-t="duelo" aria-pressed="false">🕯 He perdido a alguien querido</button>
+      <button class="tema" type="button" data-t="decision" aria-pressed="false">🌙 No sé qué hacer</button>
+      <button class="tema" type="button" data-t="familia" aria-pressed="false">🏠 Algo en mi familia</button>
+    </div>
+    <p class="instruccion" id="instruccion" aria-live="polite">Toca una de las tres cartas de la mesa</p>
+    <div id="revelado" aria-live="polite"></div>
+    <p class="precio-visible">Primera lectura gratis · después, <b>8 lecturas por €24,99</b> · <a href="#oferta">Ver planes</a></p>
+    <a href="#carta1" class="bajar">Mira cómo es</a>
+  </div>
+</header>
+
+<!-- CARTA I: lo que te trajo. Dolores con las palabras del cliente y su salida al lado -->
+<section id="carta1">
+  <div class="wrap">
+    <div class="arcano rv"><div class="num">I</div><p class="eti">Lo que te trajo</p><h2>Hay preguntas que no se le hacen a cualquiera</h2><p>¿Te reconoces en alguna?</p></div>
+    <div class="dolores">
+      <div class="dolor rv" data-n="I" data-t="pareja"><q>Se fue y no sé qué hacer con lo que siento</q><p class="sal">→ Tres cartas sobre lo que pasó, lo que pasa y lo que viene, para ordenar lo que sientes.</p></div>
+      <div class="dolor rv" data-n="II" data-t="pareja"><q>Miro su última conexión cada dos horas</q><p class="sal">→ Pregúntale a las cartas en vez de escribirle a las tres de la mañana.</p></div>
+      <div class="dolor rv" data-n="III" data-t="duelo"><q>Se fue hace poco y me han quedado cosas por decirle</q><p class="sal">→ Una tirada para mirar lo que te dejó y lo que te toca ahora a ti, con calma.</p></div>
+      <div class="dolor rv" data-n="IV" data-t="decision"><q>Son las 3 de la mañana y no paro de darle vueltas</q><p class="sal">→ La mesa está abierta a cualquier hora. Una carta: sí, no o depende.</p></div>
+      <div class="dolor rv" data-n="V" data-t="familia"><q>En casa hay algo que nadie dice</q><p class="sal">→ Una lectura para ver a tu familia desde otro lugar, sin que nadie se entere.</p></div>
+      <div class="dolor rv" data-n="VI" data-t="futuro"><q>Siento que mi vida no avanza y no sé qué viene</q><p class="sal">→ Una tirada de lo que pasó, lo que pasa y lo que se está moviendo en tu camino.</p></div>
+      <div class="dolor rv" data-n="VII" data-t="todos"><q>No se lo puedo contar a nadie</q><p class="sal">→ Nadie lee tus preguntas. No hablas con ninguna persona: solo tú y las cartas.</p></div>
+    </div>
+    <div class="contraste">
+      <div class="lado-c mal rv"><h3>Si sigues dándole vueltas</h3><ul><li>Otra noche sin dormir con la misma duda</li><li>Le preguntas a amigos que ya están cansados del tema</li><li>Llamas a una línea y la factura asusta</li><li>La pregunta sigue ahí, igual que ayer</li></ul></div>
+      <div class="lado-c bien rv"><h3 class="oro">Con el Multiverso del Tarot</h3><ul><li>Tu lectura en 3 minutos, cuando la necesitas</li><li>En privado, desde el móvil</li><li>Sabes el precio antes de empezar</li><li>Cada carta explicada para tu tema, con un consejo final</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- CARTA II: lo que cuesta. Ancla 806 y enseguida los planes (los precios suben: pedido de Braian 2026-10-30) -->
+<section id="carta2">
+  <div class="wrap">
+    <div class="arcano rv"><div class="num">II</div><p class="eti">Lo que cuesta</p><h2>Menos que una llamada al tarot</h2><p>Precio cerrado antes de empezar. Sin minutos que corren.</p></div>
+    <div class="tabla rv" role="table" aria-label="Tarot por teléfono frente a Multiverso del Tarot">
+      <div class="col no" role="rowgroup">
+        <div class="cab" role="columnheader">Tarot por teléfono</div>
+        <div class="f" role="cell">€1,21 a €1,57 por minuto*</div>
+        <div class="f" role="cell">15 minutos: de €18 a €24</div>
+        <div class="f" role="cell">Hablas con un desconocido</div>
+        <div class="f" role="cell">No sabes cuánto vas a pagar</div>
+      </div>
+      <div class="col si" role="rowgroup">
+        <div class="cab" role="columnheader">Multiverso del Tarot</div>
+        <div class="f" role="cell">La primera, gratis</div>
+        <div class="f" role="cell">Desde €0,83 la lectura</div>
+        <div class="f" role="cell">Solo tú y las cartas</div>
+        <div class="f" role="cell">Precio cerrado antes de empezar</div>
+      </div>
+    </div>
+    <p class="nota">*Tarifas que publican las líneas 806 en España (fijo y móvil, IVA incluido).</p>
+    <p class="remate rv">Casi lo mismo que un cuarto de hora al teléfono, <span class="oro">aquí son 8 lecturas en un mes.</span></p>
+
+    <h2 class="subt rv" id="oferta">Elige cómo seguir consultando</h2>
+    <p class="rv">Después de tu lectura gratis. Sin suscripciones ni cobros sorpresa: pagas una vez.</p>
+    <div class="planes">
+      <div class="plan rv">
+        <span class="rom">I</span><h3>Lectura suelta</h3>
+        <div class="pr">€14,99<small>una lectura, sin plan</small></div>
+        <ul><li>1 lectura completa de 3 cartas</li><li>¿Ya tienes un plan? Tus lecturas extra, <b>a €3,99</b></li></ul>
+        <a class="btn sec" href="https://multiversodeltarot.impultienda.ar/o/lectura-suelta" target="_blank" rel="noopener" data-compra>Quiero una lectura</a>
+      </div>
+      <div class="plan rv">
+        <span class="rom">II</span><h3>Pase 30 días</h3>
+        <div class="pr">€24,99<small>30 días · €3,12 por lectura</small></div>
+        <ul><li><b>8 lecturas</b> en 30 días</li><li>Carta del día</li><li>Sin renovación automática</li></ul>
+        <a class="btn sec" href="https://multiversodeltarot.impultienda.ar/o/pase-30-dias" target="_blank" rel="noopener" data-compra>Quiero el pase</a>
+      </div>
+      <div class="plan dest rv">
+        <span class="cinta">AHORRAS 67 %</span>
+        <span class="rom">III</span><h3>Súper Pack Anual</h3>
+        <p class="ant"><s>€299,88</s> con 12 pases de 30 días</p>
+        <div class="pr">€99,90<small>al año · €0,83 por lectura</small></div>
+        <ul><li><b>10 lecturas</b> cada mes</li><li>Carta del día</li></ul>
+        <div class="bonus">
+          <p class="tag">Bonus del plan anual</p>
+          <div><span>1 oráculo a elegir, para siempre</span><em>hasta €19,99</em></div>
+          <div><span>«Tu año en cartas»: una carta para cada mes</span><em>incluido</em></div>
+        </div>
+        <a class="btn" href="https://multiversodeltarot.impultienda.ar/o/super-pack-anual" target="_blank" rel="noopener" data-compra>Quiero mi Pack Anual</a>
+      </div>
+    </div>
+
+    <div class="llave rv">
+      <span class="cinta" style="top:16px;transform:translateX(-50%)">EL PACK COMPLETO · 12 MESES</span>
+      <p class="xxi" style="margin-top:26px">XXI</p>
+      <h3>La Llave del Multiverso</h3>
+      <p class="sub">Todas las puertas abiertas durante un año.</p>
+      <ul>
+        <li><b>20 lecturas</b> cada mes</li>
+        <li>Los 4 oráculos desbloqueados <span class="humo">(valen €54,96)</span></li>
+        <li>Los oráculos nuevos que lleguen durante el año</li>
+        <li>«Tu año en cartas» y carta del día</li>
+      </ul>
+      <p class="ant"><s>€354,84</s> por separado</p>
+      <div class="pr">€199<small>al año · €0,83 por lectura</small></div>
+      <a class="btn" href="https://multiversodeltarot.impultienda.ar/o/la-llave-del-multiverso" target="_blank" rel="noopener" data-compra>Quiero la Llave del Multiverso</a>
+    </div>
+    <div class="seguro"><span>Pago seguro</span><span>Acceso al instante</span><span>Sin suscripciones</span></div>
+
+    <div class="garantia rv">
+      <div class="sello">7<small>DÍAS</small></div>
+      <p><b>Garantía de 7 días.</b> Si el Multiverso del Tarot no es para ti, escríbenos dentro de los primeros 7 días y te devolvemos el dinero. Sin preguntas.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CARTA III: como funciona. La app por dentro + los oraculos (extras, despues de los planes) -->
+<section id="carta3" style="background:linear-gradient(180deg,transparent,rgba(26,18,38,.7) 20%,rgba(26,18,38,.7) 80%,transparent)">
+  <div class="wrap">
+    <div class="arcano rv"><div class="num">III</div><p class="eti">Cómo funciona</p><h2>Una mesa de tarot que cabe en tu bolsillo</h2></div>
+    <div class="funciona">
+      <div class="rv">
+        <div class="cel" aria-label="Así se ve una lectura en la app">
+          <div class="pantalla">
+            <div class="app-top"><b>Multiverso del Tarot</b></div>
+            <div class="preg">«¿Va a volver a escribirme?»</div>
+            <div class="mini" id="miniCartas"></div>
+            <div class="lect"><b>Lo que pasó · Los Enamorados.</b> Una elección hecha con el corazón. <b>Lo que pasa · La Luna.</b> Hay cosas que todavía no se dicen; no saques conclusiones por un silencio. <b>Lo que viene…</b> la tercera carta cambia el sentido de las otras dos.</div>
+            <div class="app-btn">VER LO QUE VIENE</div>
+          </div>
+        </div>
+        <p class="pie-cel">Así se ve una lectura por dentro (ejemplo).</p>
+      </div>
+      <ol class="pasos">
+        <li class="rv"><b>I</b><div><h3>Cuéntale qué te trae</h3><p>Tu nombre, el tema y tu pregunta, con tus palabras.</p></div></li>
+        <li class="rv"><b>II</b><div><h3>Baraja y elige</h3><p>El mazo se mezcla delante de ti y tú eliges tus cartas del abanico.</p></div></li>
+        <li class="rv"><b>III</b><div><h3>Lee lo que salió</h3><p>Lo que pasó, lo que pasa y lo que viene, explicado para tu tema.</p></div></li>
+        <li class="rv"><b>IV</b><div><h3>Llévate el consejo</h3><p>Cada lectura cierra con un consejo concreto. Se guarda en tu móvil.</p></div></li>
+      </ol>
+    </div>
+    <h2 class="subt rv">Y cuando quieras ir más allá</h2>
+    <p class="rv">Oráculos que se desbloquean una vez y quedan para siempre en tu cuenta, sin gastar lecturas. El Pack Anual trae uno de regalo y La Llave, los cuatro.</p>
+    <div class="portales">
+      <div class="portal rv"><span class="ico">♡</span><b>Alma gemela</b><span>Cómo sería esa persona y qué la acerca</span><em>€14,99</em></div>
+      <div class="portal rv"><span class="ico">✶</span><b>Carta natal</b><span>Tu sol, tu luna y tu ascendente</span><em>€19,99</em></div>
+      <div class="portal rv"><span class="ico">ᚱ</span><b>Runas</b><span>El oráculo de las tres piedras</span><em>€9,99</em></div>
+      <div class="portal rv"><span class="ico">⚭</span><b>Compatibilidad</b><span>Tú y otra persona, signo a signo</span><em>€9,99</em></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap quien">
+    <div class="si rv"><h3>Es para ti si…</h3><ul><li>Tienes una pregunta que no te deja tranquila</li><li>No quieres contárselo a nadie</li><li>Te gusta el tarot y quieres consultarlo cuando lo necesitas</li><li>Prefieres saber el precio antes de empezar</li></ul></div>
+    <div class="no rv"><h3>No es para ti si…</h3><ul><li>Buscas que alguien decida por ti</li><li>Necesitas consejo médico, legal o de dinero</li><li>Quieres una predicción exacta con fecha y hora</li><li>Eres menor de 18 años</li></ul></div>
+  </div>
+</section>
+
+<section style="padding-top:20px">
+  <div class="wrap faq">
+    <div class="arcano rv" style="margin-bottom:14px"><h2>Preguntas frecuentes</h2></div>
+    <details><summary>¿La primera lectura es gratis de verdad?</summary><p>Sí. Haces tu primera lectura de tres cartas sin pagar y sin tarjeta; antes de la última carta te pedimos tu email. Si quieres seguir, eliges un plan.</p></details>
+    <details><summary>¿Alguien ve mis preguntas?</summary><p>No. La lectura es solo para ti; no hablas con ninguna persona.</p></details>
+    <details><summary>¿Tengo que descargar algo?</summary><p>No. Se abre en el navegador del móvil y, si quieres, la guardas en tu pantalla de inicio como una app.</p></details>
+    <details><summary>¿Se renueva solo? ¿Me van a cobrar cada mes?</summary><p>No. Todos los planes son de pago único, sin renovación automática. Cuando tu pase está por vencer te avisamos por email y renuevas solo si quieres.</p></details>
+    <details><summary>¿Qué pasa si se me acaban las lecturas?</summary><p>Con un plan activo, las lecturas extra te cuestan solo €3,99 (sin plan, €14,99). En el plan anual y en La Llave, además, las lecturas se reponen cada mes.</p></details>
+    <details><summary>¿Puedo preguntar por alguien que falleció?</summary><p>Puedes hacer una lectura sobre cómo te sientes y lo que te toca ahora a ti. Las cartas no hablan en nombre de nadie: te ayudan a mirar tu propio camino.</p></details>
+    <details><summary>¿Las cartas predicen el futuro?</summary><p>El tarot es una herramienta de reflexión y entretenimiento. Te ayuda a mirar tu situación desde otro lugar; no reemplaza el consejo de un profesional.</p></details>
+  </div>
+</section>
+
+<section class="cierre">
+  <div class="wrap">
+    <h2 class="rv">Las cartas ya están sobre la mesa</h2>
+    <p class="rv">Dentro de 3 minutos puedes saber qué dicen sobre tu pregunta. La primera, gratis.</p>
+    <a class="btn rv" href="app/" target="_blank" rel="noopener">Empezar mi lectura gratis</a>
+    <p class="legal">Multiverso del Tarot ofrece lecturas con fines de reflexión y entretenimiento. No constituye asesoramiento médico, psicológico, legal ni financiero. Mayores de 18 años.</p>
+  </div>
+</section>
+</main>
+
+<script>
+(function(){
+  var APP='app/';
+  var ROM={0:'VI',1:'XVIII',2:'XVII',3:'IX',4:'XIV',5:'X',6:'VII',7:'XI',8:'III',9:'XIX',10:'VIII'};
+  var C=[
+    {n:'Los Enamorados',s:'♡',t:'#6b1f3a'},{n:'La Luna',s:'☽',t:'#2a2f6b'},{n:'La Estrella',s:'✶',t:'#1f4a6b'},
+    {n:'El Ermitaño',s:'☼',t:'#3b2f55'},{n:'La Templanza',s:'△',t:'#2f5550'},{n:'La Rueda',s:'☸',t:'#5a3a1f'},
+    {n:'El Carro',s:'♞',t:'#3a3f5a'},{n:'La Justicia',s:'⚖',t:'#4a2a4a'},{n:'La Emperatriz',s:'♀',t:'#3f5a2a'},
+    {n:'El Sol',s:'☉',t:'#6b4a1f'},{n:'La Fuerza',s:'∞',t:'#5a1f2a'}
+  ];
+  var TEMAS={
+    futuro:{ceja:'Si quieres saber qué se mueve en tu camino',ins:'Piensa en lo que viene y toca una carta',c:[
+      [5,'Las cosas se están moviendo. Un ciclo se cierra y otro empieza a girar a tu favor si te animas a acompañarlo.'],
+      [2,'Después de un tiempo difícil, algo se ordena. Esta carta habla de esperanza y de un camino que se aclara.'],
+      [9,'Claridad y energía. Lo que viene pide que te muestres tal como eres.']]},
+    pareja:{ceja:'Si tu pareja se fue y no sabes qué hacer',ins:'Piensa en esa persona y toca una carta',c:[
+      [0,'Habla de una elección hecha con el corazón. Antes de preguntarte si vuelve, la carta te pregunta qué eliges tú.'],
+      [1,'Hay cosas que todavía no se dicen. No saques conclusiones por un silencio.'],
+      [2,'Después de la tormenta, algo se ordena. Esta carta habla de volver a confiar, empezando por ti.']]},
+    duelo:{ceja:'Si has perdido hace poco a alguien querido',ins:'Piensa en lo que sientes y toca una carta',c:[
+      [2,'Una luz que no se apaga: lo que esa persona te dejó sigue contigo en lo que haces cada día.'],
+      [3,'Te pide tiempo y silencio. El duelo no tiene prisa y hoy no tienes que tener todas las respuestas.'],
+      [4,'Habla de unir lo que fue con lo que viene, poco a poco, sin exigirte.']]},
+    decision:{ceja:'Si hay una decisión que no te deja dormir',ins:'Piensa en tu pregunta y toca una carta',c:[
+      [5,'Las cosas se están moviendo. Lo que hoy parece trabado puede cambiar de lugar.'],
+      [6,'Avanzar pide elegir un rumbo y sostenerlo. La duda ya te está costando energía.'],
+      [7,'Pon cada opción en la balanza con honestidad: la respuesta está en lo que pesa para ti.']]},
+    familia:{ceja:'Si en tu familia hay algo que no se dice',ins:'Piensa en los tuyos y toca una carta',c:[
+      [8,'Habla de cuidado y de raíces. Alguien de casa necesita que lo escuchen.'],
+      [9,'Lo que se dice en voz alta se aligera. Hay una conversación pendiente que puede traer calma.'],
+      [10,'No es la fuerza de imponerse, sino la de tener paciencia con los tuyos.']]}
+  };
+  function dorso(){
+    var r='';for(var i=0;i<16;i++)r+='<line x1="48" y1="80" x2="48" y2="'+(i%2?50:44)+'" transform="rotate('+i*22.5+' 48 80)"/>';
+    return '<svg viewBox="0 0 96 160" aria-hidden="true"><defs><linearGradient id="dg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2a1d4d"/><stop offset="1" stop-color="#120c22"/></linearGradient><linearGradient id="og" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f2dc98"/><stop offset=".5" stop-color="#d2ad5b"/><stop offset="1" stop-color="#8a6d2c"/></linearGradient></defs>'+
+      '<rect x="1" y="1" width="94" height="158" rx="8" fill="url(#dg)" stroke="url(#og)" stroke-width="2"/><rect x="7" y="7" width="82" height="146" rx="5" fill="none" stroke="#d2ad5b" stroke-opacity=".55"/>'+
+      '<g stroke="#d2ad5b" stroke-opacity=".45" stroke-width=".7">'+r+'</g><circle cx="48" cy="80" r="16" fill="#120c22" stroke="url(#og)" stroke-width="1.2"/>'+
+      '<path d="M36 80q12-10 24 0q-12 10-24 0z" fill="#f3e7c9"/><circle cx="48" cy="80" r="4.2" fill="#9a2f45"/><circle cx="48" cy="80" r="1.8" fill="#0b0913"/>'+
+      '<g fill="#f2dc98"><circle cx="48" cy="22" r="5"/><path d="M38 17a6 6 0 1 0 0 10 5 5 0 1 1 0-10z"/><path d="M58 17a6 6 0 1 1 0 10 5 5 0 1 0 0-10z"/></g></svg>';
+  }
+  function cara(i,id){
+    var c=C[i],r='';for(var k=0;k<24;k++)r+='<line x1="48" y1="72" x2="48" y2="'+(k%2?42:36)+'" transform="rotate('+k*15+' 48 72)"/>';
+    var fs=c.n.length>12?7:8;
+    return '<svg viewBox="0 0 96 160" role="img" aria-label="'+c.n+'"><defs><linearGradient id="cg'+id+'" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="'+c.t+'"/><stop offset="1" stop-color="#0b0913"/></linearGradient><linearGradient id="og'+id+'" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f2dc98"/><stop offset=".5" stop-color="#d2ad5b"/><stop offset="1" stop-color="#8a6d2c"/></linearGradient></defs>'+
+      '<rect x="1" y="1" width="94" height="158" rx="8" fill="#f3e7c9"/><rect x="5" y="5" width="86" height="150" rx="5" fill="url(#cg'+id+')" stroke="url(#og'+id+')" stroke-width="1.4"/>'+
+      '<path d="M18 9h60l-4 10H22z" fill="url(#og'+id+')"/><text x="48" y="17.5" text-anchor="middle" font-family="Cinzel Decorative, Georgia, serif" font-weight="700" font-size="8" fill="#0b0913">'+ROM[i]+'</text>'+
+      '<g stroke="#f2dc98" stroke-opacity=".35" stroke-width=".6">'+r+'</g><circle cx="48" cy="72" r="22" fill="#0b0913" fill-opacity=".55" stroke="url(#og'+id+')" stroke-width="1.2"/>'+
+      '<text x="48" y="83" text-anchor="middle" font-size="30" fill="#f2dc98" font-family="Georgia, serif">'+c.s+'</text>'+
+      '<path d="M12 126h72l-5 18H17z" fill="#f3e7c9" stroke="url(#og'+id+')"/><text x="48" y="138.5" text-anchor="middle" font-family="Cinzel Decorative, Georgia, serif" font-weight="700" font-size="'+fs+'" fill="#3a1420">'+c.n+'</text></svg>';
+  }
+  var tres=document.getElementById('tres'),ds=[].slice.call(tres.children),temaAct=null;
+  ds.forEach(function(d,k){d.innerHTML='<span class="lado">'+dorso()+'</span><span class="lado cara"></span>';d.addEventListener('click',function(){voltear(k)})});
+  document.getElementById('miniCartas').innerHTML='<span>'+cara(0,'m0')+'</span><span>'+cara(1,'m1')+'</span><span>'+dorso()+'</span>';
+
+  function elegirTema(t){
+    temaAct=t;var T=TEMAS[t];
+    [].forEach.call(document.querySelectorAll('.tema'),function(b){b.setAttribute('aria-pressed',b.dataset.t===t)});
+    document.getElementById('ceja').textContent=T.ceja;
+    document.getElementById('instruccion').textContent=T.ins;
+    [].forEach.call(document.querySelectorAll('.dolor'),function(d){d.classList.toggle('marcado',d.dataset.t===t)});
+    if(tres.classList.contains('listo')) reiniciar();
+  }
+  function reiniciar(){tres.classList.remove('listo');tres.classList.add('espera');ds.forEach(function(d){d.classList.remove('vuelta')});document.getElementById('revelado').innerHTML=''}
+  function voltear(k){
+    if(tres.classList.contains('listo'))return;
+    if(!temaAct) elegirTema('pareja');
+    var T=TEMAS[temaAct],par=T.c[Math.floor(Math.random()*3)],c=C[par[0]];
+    ds[k].querySelector('.cara').innerHTML=cara(par[0],'h'+k);
+    ds[k].classList.add('vuelta');tres.classList.remove('espera');tres.classList.add('listo');
+    document.getElementById('instruccion').textContent='Salió '+c.n;
+    var href=APP+(APP.indexOf('?')<0?'?':'&')+'tema='+temaAct;
+    setTimeout(function(){
+      document.getElementById('revelado').innerHTML='<div class="revelado"><p class="nombre">Tu primera carta · '+c.n+'</p><p>'+par[1]+'</p>'+
+        '<p class="corte">Es la primera de tus tres cartas. Las otras dos completan el sentido: lo que pasa ahora y lo que viene, y el consejo final para ti…</p>'+
+        '<a class="btn" href="'+href+'" target="_blank" rel="noopener">Seguir mi lectura gratis →</a><small>Sin tarjeta · 3 minutos · solo tú la ves</small></div>';
+    },650);
+  }
+  [].forEach.call(document.querySelectorAll('.tema'),function(b){b.addEventListener('click',function(){elegirTema(b.dataset.t)})});
+  // el anuncio de cada angulo llega con ?tema=futuro|pareja|duelo|decision|familia y ve su primera pantalla
+  var m=/[?&]tema=(futuro|pareja|duelo|decision|familia)/.exec(location.search); if(m) elegirTema(m[1]);
+
+  // guia fija de la tirada
+  var guia=document.getElementById('guia'),links=[].slice.call(guia.querySelectorAll('a')),secs=['carta1','carta2','carta3'].map(function(id){return document.getElementById(id)});
+  function alBajar(){
+    guia.classList.toggle('ver',scrollY>innerHeight*.8);
+    var on=-1;secs.forEach(function(s,i){if(s.getBoundingClientRect().top<innerHeight*.45)on=i});
+    links.forEach(function(a,i){a.classList.toggle('on',i===on)});
+  }
+  addEventListener('scroll',alBajar,{passive:true});alBajar();
+
+  // aparicion al bajar (sin JS todo queda visible)
+  var els=[].slice.call(document.querySelectorAll('.rv'));
+  if('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){var el=e.target,i=[].indexOf.call(el.parentNode.children,el);
+      setTimeout(function(){el.classList.remove('oculto')},Math.min(i,6)*90);io.unobserve(el)}})},{threshold:.12,rootMargin:'0px 0px -6% 0px'});
+    els.forEach(function(el){if(el.getBoundingClientRect().top>innerHeight*.9){el.classList.add('oculto');io.observe(el)}});
+  }
+
+  // pixel de Meta (Multiverso del Tarot): visita, y inicio de pago al tocar un plan
+  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','1790274578916243');fbq('init','1476421557733132');fbq('track','PageView');fbq('track','ViewContent',{content_name:'landing'});
+  [].forEach.call(document.querySelectorAll('[data-compra]'),function(x){x.addEventListener('click',function(){fbq('track','InitiateCheckout',{content_name:x.textContent.trim()})})});
+
+  // las UTM del anuncio viajan al pago (Impultienda las devuelve en el aviso de la venta)
+  var q=location.search.replace(/^\?/,'');
+  if(q)[].forEach.call(document.querySelectorAll('[data-compra]'),function(x){x.href+=(x.href.indexOf('?')<0?'?':'&')+q});
+
+  // blindaje anti-copia: frena al copion rapido (clic derecho, arrastrar, atajos de guardar/ver codigo/copiar)
+  document.addEventListener('contextmenu',function(e){e.preventDefault()});
+  document.addEventListener('dragstart',function(e){e.preventDefault()});
+  document.addEventListener('keydown',function(e){var k=(e.key||'').toLowerCase();
+    if(e.key==='F12'||((e.ctrlKey||e.metaKey)&&['s','u','p','c'].indexOf(k)>=0)||((e.ctrlKey||e.metaKey)&&e.shiftKey&&['i','j','c'].indexOf(k)>=0))e.preventDefault()});
+})();
+</script>
+
+</body></html>
