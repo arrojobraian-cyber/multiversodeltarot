@@ -551,7 +551,7 @@ function grupo(id,clave){
   });
 }
 grupo('temas','tema');grupo('animos','animo');grupo('tiradas','n');
-(function(){var m=/[?&]tema=(\w+)/.exec(location.search);var mapa={pareja:'amor',duelo:'duelo',decision:'decision',familia:'familia',futuro:'futuro'};
+(function(){var q0=location.search;try{q0=decodeURIComponent(q0)}catch(e){};q0=q0.normalize('NFD').replace(/[̀-ͯ]/g,'');var m=/[?&]tema=(\w+)/.exec(q0);var mapa={pareja:'amor',duelo:'duelo',decision:'decision',familia:'familia',futuro:'futuro'};
   var t=m&&mapa[m[1]];if(!t)return;var b=$('temas').querySelector('[data-v="'+t+'"]');if(b)b.click()})();
 
 function svgDorso(){

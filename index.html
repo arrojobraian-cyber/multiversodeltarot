@@ -546,7 +546,7 @@ img,svg{-webkit-user-drag:none;user-drag:none}
   }
   [].forEach.call(document.querySelectorAll('.tema'),function(b){b.addEventListener('click',function(){elegirTema(b.dataset.t)})});
   // el anuncio de cada angulo llega con ?tema=futuro|pareja|duelo|decision|familia y ve su primera pantalla
-  var m=/[?&]tema=(futuro|pareja|duelo|decision|familia)/.exec(location.search); if(m){ elegirTema(m[1]); document.querySelector('.dolores').classList.add('solo'); }
+  var q0=location.search;try{q0=decodeURIComponent(q0)}catch(e){};q0=q0.normalize('NFD').replace(/[̀-ͯ]/g,'');var m=/[?&]tema=(futuro|pareja|duelo|decision|familia)/.exec(q0); if(m){ elegirTema(m[1]); document.querySelector('.dolores').classList.add('solo'); }
 
   // guia fija de la tirada
   var guia=document.getElementById('guia'),links=[].slice.call(guia.querySelectorAll('a')),secs=['carta1','carta2','carta3'].map(function(id){return document.getElementById(id)});
